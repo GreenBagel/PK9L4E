@@ -15,13 +15,7 @@
         {
             $statement = new Statement($this->mysqli, "SELECT location FROM locations LIMIT {$index}, 1");
 
-            if($statement->GetRowCount() > 0)
-            {
-                $row = $statement->GetRow(0);
-                return $row[0];
-            }
-
-            return NULL;
+            return $statement->GetRow(0);
         }
 
         public function GetLocationWithFieldsFilter($location)
@@ -41,12 +35,7 @@
                 $statement = new Statement($this->mysqli, $query, 's', $filters);
             }
 
-            if($statement->GetRowCount() > 0)
-            {
-                return $statement->GetAllRows();
-            }
-
-            return NULL;
+            return $statement->GetAllRows();
         }
 
         public function GetLocationCount()

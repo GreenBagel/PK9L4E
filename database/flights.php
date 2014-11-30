@@ -18,15 +18,11 @@
 
         public function GetFlightWithIndex($index)
         {
-            $statement = new Statement($this->mysqli, "SELECT flight FROM flights LIMIT {$index}, 1");
+            $statement = new Statement($this->mysqli, "SELECT * FROM flights LIMIT {$index}, 1");
 
-            if($statement->GetRowCount() > 0)
-            {
-                $row = $statement->GetRow(0);
-                return $row;
-            }
+            $row = $statement->GetRow(0);
 
-            return NULL;
+            return $row;
         }
 
         public function GetFlightWithFieldsFilter($flight_code, $origin, $departure_date_time, $destination, $arrival_date_time, $no_of_seats, $price, $input_date_time_format = self::NO_FORMAT, $output_date_time_format = self::NO_FORMAT)
@@ -175,13 +171,20 @@
 
             $statement = new Statement($this->mysqli, $query, $bound_argument_type, $filters);
 
-            if($statement->GetRowCount() > 0)
-            {
-                $rows = $statement->GetAllRows();
-                return $rows;
-            }
+            $rows = $statement->GetAllRows();
 
-            return NULL;
+            return $rows;
+        }
+
+        public function GetMaxSeatNumber($flight_code)
+        {
+            $argument = array(&$flight_code);
+
+            $statement = new Statement($this->mysqli, 'SELECT no_of_seats FROM flights WHERE flight_code = ? LIMIT 1', 's', $argument);
+
+            $row = $statement->GetRow(0);
+
+            return $row[0];
         }
 
         public function GetFlightCount()

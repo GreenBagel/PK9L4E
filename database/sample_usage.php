@@ -37,6 +37,12 @@
         ?>
         <br /><br />
         <?php
+            $flight = $flights->GetFlightWithIndex(0);
+            echo '$flight = $flights->GetFlightWithIndex(0) <br />';
+            echo $flight[0] . ' ' . $flight[1] . ' ' . $flight[2] . ' ' . $flight[3] . ' ' . $flight[4] . ' ' . $flight[5] . ' ' . $flight[6];
+        ?>
+        <br /><br />
+        <?php
             $flights_array = $flights->GetFlightWithFieldsFilter(NULL, NULL, NULL, NULL, NULL, NULL, NULL, Flights::NO_FORMAT, Flights::FORMAT_TO_DATE_ONLY);
             echo '$flights->GetFlightWithFieldsFilter(NULL, NULL, NULL, NULL, NULL, NULL, NULL, Flights::NO_FORMAT, Flights::FORMAT_TO_DATE_ONLY) <br />';
             foreach($flights_array as &$flight)
@@ -73,12 +79,22 @@
         ?>
         <br /><br />
         <?php
-            $flights_array = $flights->GetFlightWithFieldsFilter(NULL, NULL, '2015-03-21', 'Seoul (ICN)', NULL, 15, 2415.00, Flights::FORMAT_TO_DATE_ONLY, Flights::FORMAT_TO_UNIX_TIMESTAMP);
+            $flights_array = $flights->GetFlightWithFieldsFilter(NULL, NULL, '2017-03-21', 'Seoul (ICN)', NULL, 15, 2415.00, Flights::FORMAT_TO_DATE_ONLY, Flights::FORMAT_TO_UNIX_TIMESTAMP);
             echo '$flights->GetFlightWithFieldsFilter(NULL, NULL, \'2015-03-21\', \'Seoul (ICN)\', NULL, 15, 2415.00, Flights::FORMAT_TO_DATE_ONLY, Flights::FORMAT_TO_UNIX_TIMESTAMP) <br />';
             foreach($flights_array as &$flight)
             {
                 echo $flight[0] . ' ' . $flight[1] . ' ' . $flight[2] . ' ' . $flight[3] . ' ' . $flight[4] . ' ' . $flight[5] . ' ' . $flight[6] . '<br />';
             }
+        ?>
+        <br /><br />
+        <?php
+            echo '$flights->GetMaxSeatNumber(\'ZT185\') <br />';
+            echo $flights->GetMaxSeatNumber('ZT185');
+        ?>
+        <br /><br />
+        <?php
+            echo '$flights->GetFlightCount() <br />';
+            echo $flights->GetFlightCount();
         ?>
     </body>
 </html>

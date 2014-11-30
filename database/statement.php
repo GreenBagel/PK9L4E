@@ -2,7 +2,7 @@
     class Statement
     {
         private $mysqli_stmt;
-        private $mysqli_result;
+        private $mysqli_result = NULL;
 
         public function __construct($mysqli, $query, $bound_argument_type = NULL, &$arguments = NULL)
         {
@@ -32,7 +32,7 @@
 
             if($this->mysqli_result === FALSE)
             {
-                throw new Exception($this->mysqli_stmt->error, $this->mysqli_stmt->errno);
+                $this->mysqli_result = NULL;
             }
         }
 
@@ -42,7 +42,7 @@
 
             $row = $this->mysqli_result->fetch_row();
 
-            if(empty($row))
+            if($row === NULL)
             {
                 throw new Exception('Unable to retrieve row.');
             }
@@ -86,7 +86,10 @@
 
         public function __destruct()
         {
-            $this->mysqli_result->free();
+            if($this->mysqli_result !== NULL)
+            {
+                $this->mysqli_result->free();
+            }
 
             assert($this->mysqli_stmt->close() === TRUE);
         }
