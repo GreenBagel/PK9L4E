@@ -15,7 +15,8 @@
         {
             $statement = new Statement($this->mysqli, "SELECT location FROM locations LIMIT {$index}, 1");
 
-            return $statement->GetRow(0);
+            $row  = $statement->GetRow(0);
+            return $row[0];
         }
 
         public function GetLocationWithFieldsFilter($location)

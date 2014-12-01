@@ -3,6 +3,11 @@
 
     class Database
     {
+        const DATE_TIME_NO_FORMAT = 0;
+        const DATE_TIME_FORMAT_TO_DATE_ONLY = 1;
+        const DATE_TIME_FORMAT_TO_TIME_ONLY = 2;
+        const DATE_TIME_FORMAT_TO_UNIX_TIMESTAMP = 3;
+
         private $mysqli;
 
         public function __construct($username, $password, $database_name, $port = 3306, $host = NULL)

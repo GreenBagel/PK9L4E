@@ -12,8 +12,13 @@
         {
             $this->database = $database;
             $this->mysqli = $database->GetMySQLI();
+
+            $this->RemoveExpiredReservations();
         }
 
+        /*!
+        Try to add a new reservation. If seat_number is not specified, a rondom seat is given.
+        */
         public function Add($flight_code, $seat_number = NULL)
         {
             if(!$this->IsFlightFull($flight_code))
@@ -113,6 +118,147 @@
             return $occupied_seats;
         }
 
+        public function GetReservationWithIndex($index)
+        {
+            $statement = new Statement($this->mysqli, "SELECT * FROM reservations LIMIT {$index}, 1");
+
+            $row = $statement->GetRow(0);
+
+            return $row;
+        }
+
+        public function GetReservationWithFieldsFilter($reservation_code, $flight_code, $seat_number, $reservation_date_time, $paid, $input_date_time_format = Database::DATE_TIME_NO_FORMAT, $output_date_time_format = Database::DATE_TIME_NO_FORMAT)
+        {
+            $first_filter_added = FALSE;
+            $query;
+            $bound_argument_type = NULL;
+            $filters;
+
+            switch($output_date_time_format)
+            {
+                case Database::DATE_TIME_FORMAT_TO_DATE_ONLY:
+                {
+                    $query = 'SELECT reservation_code, flight_code, seat_number, DATE_FORMAT(reservation_date_time, \'%Y-%m-%d\'), paid FROM reservations';
+                    break;
+                }
+                case Database::DATE_TIME_FORMAT_TO_TIME_ONLY:
+                {
+                    $query = 'SELECT reservation_code, flight_code, seat_number, DATE_FORMAT(reservation_date_time, \'%H:%i:%s\'), paid FROM reservations';
+                    break;
+                }
+                case Database::DATE_TIME_FORMAT_TO_UNIX_TIMESTAMP:
+                {
+                    $query = 'SELECT reservation_code, flight_code, seat_number, UNIX_TIMESTAMP(reservation_date_time), paid FROM reservations';
+                    break;
+                }
+                default:
+                {
+                    $query = 'SELECT * FROM reservations';
+                }
+            }
+
+            if($reservation_code !== NULL)
+            {
+                $query = $query . ' WHERE reservation_code = ?';
+                $bound_argument_type = $bound_argument_type . 's';
+                $filters[] = &$reservation_code;
+                $first_filter_added = TRUE;
+            }
+
+            if($flight_code !== NULL)
+            {
+                $_query = 'flight_code = ?';
+
+                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
+
+                $bound_argument_type = $bound_argument_type . 's';
+                $filters[] = &$flight_code;
+            }
+
+            if($seat_number !== NULL)
+            {
+                $_query = 'seat_number = ?';
+
+                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
+
+                $bound_argument_type = $bound_argument_type . 'i';
+                $filters[] = &$seat_number;
+            }
+
+            if($reservation_date_time !== NULL)
+            {
+                $_query;
+
+                switch($input_date_time_format)
+                {
+                    case Database::DATE_TIME_FORMAT_TO_DATE_ONLY:
+                    {
+                        $_query = 'DATE_FORMAT(reservation_date_time, \'%Y-%m-%d\') = ?';
+                        break;
+                    }
+                    case Database::DATE_TIME_FORMAT_TO_TIME_ONLY:
+                    {
+                        $_query = 'DATE_FORMAT(reservation_date_time, \'%H:%i:%s\') = ?';
+                        break;
+                    }
+                    case Database::DATE_TIME_FORMAT_TO_UNIX_TIMESTAMP:
+                    {
+                        $_query = 'UNIX_TIMESTAMP(reservation_date_time) = ?';
+                        break;
+                    }
+                    default:
+                    {
+                        $_query = 'reservation_date_time = ?';
+                    }
+                }
+
+                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
+
+                $bound_argument_type = $bound_argument_type . ($input_date_time_format === Database::DATE_TIME_FORMAT_TO_UNIX_TIMESTAMP ? 'i' : 's');
+                $filters[] = &$reservation_date_time;
+            }
+
+            if($paid !== NULL)
+            {
+                $_query = 'paid = ?';
+
+                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
+
+                $bound_argument_type = $bound_argument_type . 'i';
+                $filters[] = &$paid;
+            }
+
+            $statement = new Statement($this->mysqli, $query, $bound_argument_type, $filters);
+
+            $rows = $statement->GetAllRows();
+
+            return $rows;
+        }
+
+        public function GetReservationCount()
+        {
+            $statement = new Statement($this->mysqli, 'SELECT COUNT(*) FROM reservations');
+
+            $row = $statement->GetRow(0);
+
+            return $row[0];
+        }
+
+        public function SetPaid($reservation_code, $has_paid)
+        {
+            $has_paid_int = $has_paid === TRUE ? 1 : 0;
+            $not_has_paid_int = $has_paid === TRUE ? 0 : 1;
+
+            $arguments = array(&$has_paid_int, &$reservation_code, &$not_has_paid_int);
+
+            $statement = new Statement($this->mysqli, 'UPDATE reservations SET paid = ? WHERE reservation_code = ? AND paid = ?', 'isi', $arguments);
+        }
+
+        public function RemoveExpiredReservations()
+        {
+            $statement = new Statement($this->mysqli, 'DELETE FROM reservations WHERE UNIX_TIMESTAMP(reservation_date_time) + 86400 < UNIX_TIMESTAMP(NOW()) AND paid = 0');
+        }
+
         private function GetNewReservationCode($flight_code, $seat_number, $unix_timestamp)
         {
             $arguments = array(&$flight_code, &$seat_number, &$unix_timestamp);
@@ -160,6 +306,19 @@
             }
 
             return hash('crc32', $string);
+        }
+
+        private function GetReservationWithFieldsFilter2(&$first_filter_added, &$query, &$_query)
+        {
+            if($first_filter_added)
+            {
+                $query = $query . ' AND ' . $_query;
+            }
+            else
+            {
+                $query = $query . ' WHERE ' . $_query;
+                $first_filter_added = TRUE;
+            }
         }
     }
 ?>
