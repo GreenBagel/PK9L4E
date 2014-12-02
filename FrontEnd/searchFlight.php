@@ -15,10 +15,30 @@
             <h2>Search Flight</h2>
             Date:
             <input type="date" name="deptDate">
+
             Origin:
-            <input type="text" name="originCity">
+            <select name ="originCity">
+                <?php
+                $location_array = $locations->GetLocationWithFieldsFilter(NULL);
+                echo '<option>Select Origin</option>';
+                foreach($location_array as $location)
+                {
+                    echo '<option>'.$location[0].'</option>';
+                }   
+                ?>    
+            </select>
+
             Destination:
-            <input type="text" name ="destCity">
+            <select name ="destCity">
+                <?php
+                $location_array = $locations->GetLocationWithFieldsFilter(NULL);
+                echo '<option value=\"\">Select Destination</option>';
+                foreach($location_array as $location)
+                {
+                    echo '<option>'.$location[0].'</option>';
+                }   
+                ?> 
+            </select>
             <input type="submit" value="submit"> 
         </form>
     </body>
