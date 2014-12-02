@@ -69,7 +69,6 @@ CREATE TABLE reservations
     flight_code           VARCHAR(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
     seat_number           SMALLINT(3) UNSIGNED NOT NULL,
     reservation_date_time DATETIME(0) NOT NULL,
-    paid                  BOOLEAN NOT NULL DEFAULT 0,
     CONSTRAINT pk_reservation_code PRIMARY KEY(reservation_code),
     CONSTRAINT fk_flight_code      FOREIGN KEY(flight_code) REFERENCES flights(flight_code)
 );
@@ -84,5 +83,5 @@ CREATE TABLE customers
     payment_method      ENUM('Credit Card', 'Bank Transfer') NOT NULL,
     payment_details     VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, -- Restrict input to numbers only in PHP
     CONSTRAINT pk_reservation_code PRIMARY KEY(reservation_code),
-    CONSTRAINT fk_reservation_code FOREIGN KEY(reservation_code) REFERENCES reservations(reservation_code)
+    CONSTRAINT fk_reservation_code FOREIGN KEY(reservation_code) REFERENCES reservations(reservation_code) ON DELETE CASCADE
 );

@@ -76,6 +76,11 @@
             return $this->mysqli_result->num_fields;
         }
 
+        public function GetAffectedRowCount()
+        {
+            return $this->mysqli_stmt->affected_rows;
+        }
+
         private function SeekToRow($index)
         {
             if($this->mysqli_result->data_seek($index) === FALSE)

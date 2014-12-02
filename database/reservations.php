@@ -45,11 +45,9 @@
 
                 $reservation_code = $this->GetNewReservationCode($flight_code, $seat_number, $reservation_date_time);
 
-                $paid = 0;
+                $arguments = array(&$reservation_code, &$flight_code, &$seat_number, &$reservation_date_time);
 
-                $arguments = array(&$reservation_code, &$flight_code, &$seat_number, &$reservation_date_time, &$paid);
-
-                $statement = new Statement($this->mysqli, 'INSERT INTO reservations(reservation_code, flight_code, seat_number, reservation_date_time, paid) VALUES(?, ?, ?, FROM_UNIXTIME(?, \'%Y-%m-%d %H:%i:%s\'), ?)', 'ssiii', $arguments);
+                $statement = new Statement($this->mysqli, 'INSERT INTO reservations(reservation_code, flight_code, seat_number, reservation_date_time) VALUES(?, ?, ?, FROM_UNIXTIME(?, \'%Y-%m-%d %H:%i:%s\'))', 'ssii', $arguments);
 
                 return $reservation_code;
             }
@@ -127,7 +125,7 @@
             return $row;
         }
 
-        public function GetReservationWithFieldsFilter($reservation_code, $flight_code, $seat_number, $reservation_date_time, $paid, $input_date_time_format = Database::DATE_TIME_NO_FORMAT, $output_date_time_format = Database::DATE_TIME_NO_FORMAT)
+        public function GetReservationWithFieldsFilter($reservation_code, $flight_code, $seat_number, $reservation_date_time, $input_date_time_format = Database::DATE_TIME_NO_FORMAT, $output_date_time_format = Database::DATE_TIME_NO_FORMAT)
         {
             $first_filter_added = FALSE;
             $query;
@@ -138,17 +136,17 @@
             {
                 case Database::DATE_TIME_FORMAT_TO_DATE_ONLY:
                 {
-                    $query = 'SELECT reservation_code, flight_code, seat_number, DATE_FORMAT(reservation_date_time, \'%Y-%m-%d\'), paid FROM reservations';
+                    $query = 'SELECT reservation_code, flight_code, seat_number, DATE_FORMAT(reservation_date_time, \'%Y-%m-%d\') FROM reservations';
                     break;
                 }
                 case Database::DATE_TIME_FORMAT_TO_TIME_ONLY:
                 {
-                    $query = 'SELECT reservation_code, flight_code, seat_number, DATE_FORMAT(reservation_date_time, \'%H:%i:%s\'), paid FROM reservations';
+                    $query = 'SELECT reservation_code, flight_code, seat_number, DATE_FORMAT(reservation_date_time, \'%H:%i:%s\') FROM reservations';
                     break;
                 }
                 case Database::DATE_TIME_FORMAT_TO_UNIX_TIMESTAMP:
                 {
-                    $query = 'SELECT reservation_code, flight_code, seat_number, UNIX_TIMESTAMP(reservation_date_time), paid FROM reservations';
+                    $query = 'SELECT reservation_code, flight_code, seat_number, UNIX_TIMESTAMP(reservation_date_time) FROM reservations';
                     break;
                 }
                 default:
@@ -218,16 +216,6 @@
                 $filters[] = &$reservation_date_time;
             }
 
-            if($paid !== NULL)
-            {
-                $_query = 'paid = ?';
-
-                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
-
-                $bound_argument_type = $bound_argument_type . 'i';
-                $filters[] = &$paid;
-            }
-
             $statement = new Statement($this->mysqli, $query, $bound_argument_type, $filters);
 
             $rows = $statement->GetAllRows();
@@ -244,19 +232,22 @@
             return $row[0];
         }
 
-        public function SetPaid($reservation_code, $has_paid)
+        public function RemoveReservation($reservation_code)
         {
-            $has_paid_int = $has_paid === TRUE ? 1 : 0;
-            $not_has_paid_int = $has_paid === TRUE ? 0 : 1;
+            $arguments = array(&$reservation_code);
 
-            $arguments = array(&$has_paid_int, &$reservation_code, &$not_has_paid_int);
+            $statement = new Statement($this->mysqli, 'DELETE FROM reservations WHERE reservation_code = ?', 's', $arguments);
 
-            $statement = new Statement($this->mysqli, 'UPDATE reservations SET paid = ? WHERE reservation_code = ? AND paid = ?', 'isi', $arguments);
+            return $statement->GetAffectedRowCount();
         }
 
         public function RemoveExpiredReservations()
         {
-            $statement = new Statement($this->mysqli, 'DELETE FROM reservations WHERE UNIX_TIMESTAMP(reservation_date_time) + 86400 < UNIX_TIMESTAMP(NOW()) AND paid = 0');
+            $statement = new Statement($this->mysqli, 'CREATE TEMPORARY TABLE t AS SELECT reservation_code FROM reservations WHERE NOT EXISTS(SELECT reservation_code FROM customers WHERE customers.reservation_code = reservations.reservation_code)');
+
+            $statement = new Statement($this->mysqli, 'DELETE FROM reservations WHERE reservation_code IN (SELECT * FROM t) AND UNIX_TIMESTAMP(reservation_date_time) + 86400 < UNIX_TIMESTAMP(NOW())');
+
+            return $statement->GetAffectedRowCount();
         }
 
         private function GetNewReservationCode($flight_code, $seat_number, $unix_timestamp)
