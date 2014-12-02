@@ -1,5 +1,16 @@
 <html>
     <body>
+
+        <?php
+        require_once('../database/database.php');
+        require_once('../database/locations.php');
+        require_once('../database/flights.php');
+
+        $database = new Database('root', '', 'flight');
+        $locations = new Locations($database);
+        $flights = new Flights($database);
+        ?>
+
         <form action="" method="post">
             <h2>Search Flight</h2>
             Date:
