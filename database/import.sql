@@ -67,8 +67,12 @@ CREATE TABLE reservations
 (
     reservation_code      VARCHAR(8) NOT NULL,
     flight_code           VARCHAR(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-    seat_number           SMALLINT(3) UNSIGNED NOT NULL,
     reservation_date_time DATETIME(0) NOT NULL,
+    name                  VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    nric                  BIGINT UNSIGNED NOT NULL,
+    email                 VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    contact_no            VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, -- Restrict input to numbers only in PHP
+    seat_number           SMALLINT(3) UNSIGNED NOT NULL,
     CONSTRAINT pk_reservation_code PRIMARY KEY(reservation_code),
     CONSTRAINT fk_flight_code      FOREIGN KEY(flight_code) REFERENCES flights(flight_code)
 );
@@ -76,10 +80,6 @@ CREATE TABLE reservations
 CREATE TABLE customers
 (
     reservation_code    VARCHAR(8) NOT NULL,
-    name                VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-    nric                BIGINT UNSIGNED NOT NULL,
-    email               VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-    contact_no          VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, -- Restrict input to numbers only in PHP
     payment_method      ENUM('Credit Card', 'Bank Transfer') NOT NULL,
     payment_details     VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, -- Restrict input to numbers only in PHP
     CONSTRAINT pk_reservation_code PRIMARY KEY(reservation_code),

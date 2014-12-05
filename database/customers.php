@@ -11,40 +11,30 @@
             $this->mysqli = $database->GetMySQLI();
         }
 
-        public function ConfirmPayment($reservation_code, $name, $nric, $email, $contact_no, $payment_method, $payment_details)
+        public function ConfirmPayment($reservation_code, $payment_method, $payment_details)
         {
-            if(is_numeric($contact_no) === FALSE)
-            {
-                throw new InvalidArgumentException('Invalid contact number.');
-            }
-
             if(is_numeric($payment_details) === FALSE)
             {
                 throw new InvalidArgumentException('Invalid payment details.');
             }
 
-            $arguments = array(&$reservation_code, &$name, &$nric, &$email, &$contact_no, &$payment_method, &$payment_details);
+            $arguments = array(&$reservation_code, &$payment_method, &$payment_details);
 
-            $statement = new Statement($this->mysqli, 'INSERT INTO customers(reservation_code, name, nric, email, contact_no, payment_method, payment_details) VALUES(?, ?, ?, ?, ?, ?, ?)', 'ssissss', $arguments);
+            $statement = new Statement($this->mysqli, 'INSERT INTO customers(reservation_code, payment_method, payment_details) VALUES(?, ?, ?)', 'sss', $arguments);
 
             return $statement->GetAffectedRowCount();
         }
 
-        public function UpdateDetails($reservation_code, $name, $nric, $email, $contact_no, $payment_method, $payment_details)
+        public function UpdateDetails($reservation_code, $payment_method, $payment_details)
         {
-            if(is_numeric($contact_no) === FALSE)
-            {
-                throw new InvalidArgumentException('Invalid contact number.');
-            }
-
             if(is_numeric($payment_details) === FALSE)
             {
                 throw new InvalidArgumentException('Invalid payment details.');
             }
 
-            $arguments = array(&$name, &$nric, &$email, &$contact_no, &$payment_method, &$payment_details, &$reservation_code);
+            $arguments = array(&$payment_method, &$payment_details, &$reservation_code);
 
-            $statement = new Statement($this->mysqli, 'UPDATE customers SET name = ?, nric = ?, email = ?, contact_no = ?, payment_method = ?, payment_details = ? WHERE reservation_code = ?', 'sisssss', $arguments);
+            $statement = new Statement($this->mysqli, 'UPDATE customers SET payment_method = ?, payment_details = ? WHERE reservation_code = ?', 'sss', $arguments);
 
             return $statement->GetAffectedRowCount();
         }
@@ -58,18 +48,8 @@
             return $row;
         }
 
-        public function GetCustomerWithFieldsFilter($reservation_code, $name, $nric, $email, $contact_no, $payment_method, $payment_details)
+        public function GetCustomerWithFieldsFilter($reservation_code, $payment_method, $payment_details)
         {
-            if(is_numeric($contact_no) === FALSE)
-            {
-                throw new InvalidArgumentException('Invalid contact number.');
-            }
-
-            if(is_numeric($payment_details) === FALSE)
-            {
-                throw new InvalidArgumentException('Invalid payment details.');
-            }
-
             $first_filter_added = FALSE;
             $query = 'SELECT * FROM customers';
             $bound_argument_type = NULL;
@@ -83,10 +63,6 @@
                 $first_filter_added = TRUE;
             }
 
-            $this->GetCustomerWithFieldsFilter2($name, 'name', $bound_argument_type, 's', $filters, $first_filter_added, $query);
-            $this->GetCustomerWithFieldsFilter2($nric, 'nric', $bound_argument_type, 'i', $filters, $first_filter_added, $query);
-            $this->GetCustomerWithFieldsFilter2($email, 'email', $bound_argument_type, 's', $filters, $first_filter_added, $query);
-            $this->GetCustomerWithFieldsFilter2($contact_no, 'contact_no', $bound_argument_type, 's', $filters, $first_filter_added, $query);
             $this->GetCustomerWithFieldsFilter2($payment_method, 'payment_method', $bound_argument_type, 's', $filters, $first_filter_added, $query);
             $this->GetCustomerWithFieldsFilter2($payment_details, 'payment_details', $bound_argument_type, 's', $filters, $first_filter_added, $query);
 
@@ -97,7 +73,7 @@
             return $rows;
         }
 
-        public function GetCustomerCount()
+        public function GetPaidCustomerCount()
         {
             $statement = new Statement($this->mysqli, 'SELECT COUNT(*) FROM customers');
 
