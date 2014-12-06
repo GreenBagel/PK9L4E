@@ -40,7 +40,7 @@
             ?>
         </table>
         <h3>Please enter your personal data</h3>
-        <form action='' method='post'>
+        <form action='reserveToDB.php' method='post'>
             <table>
                 <tr>
                     <td>Full Name:</td>
@@ -60,7 +60,7 @@
                 </tr>
                 <tr>
                     <td rowspan ='2'><input type='submit' value='Reserve'></td>
-                    <input type ='hidden' name='flightCode' value='<?= $flightCode?>'>
+                <input type ='hidden' name='flightCode' value='<?= $flightCode ?>'>
                 </tr>
             </table>
         </form>

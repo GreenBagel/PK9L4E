@@ -19,8 +19,13 @@
         /*!
         Try to add a new reservation. If seat_number is not specified, a rondom seat is given.
         */
-        public function Add($flight_code, $seat_number = NULL)
+        public function Add($flight_code, $name, $nric, $email, $contact_no, $seat_number = NULL)
         {
+            if(is_numeric($contact_no) === FALSE)
+            {
+                throw new InvalidArgumentException('Invalid contact number.');
+            }
+
             if(!$this->IsFlightFull($flight_code))
             {
                 if($seat_number !== NULL)
@@ -45,9 +50,9 @@
 
                 $reservation_code = $this->GetNewReservationCode($flight_code, $seat_number, $reservation_date_time);
 
-                $arguments = array(&$reservation_code, &$flight_code, &$seat_number, &$reservation_date_time);
+                $arguments = array(&$reservation_code, &$flight_code, &$reservation_date_time, &$name, &$nric, &$email, &$contact_no, &$seat_number);
 
-                $statement = new Statement($this->mysqli, 'INSERT INTO reservations(reservation_code, flight_code, seat_number, reservation_date_time) VALUES(?, ?, ?, FROM_UNIXTIME(?, \'%Y-%m-%d %H:%i:%s\'))', 'ssii', $arguments);
+                $statement = new Statement($this->mysqli, 'INSERT INTO reservations(reservation_code, flight_code, reservation_date_time, name, nric, email, contact_no, seat_number) VALUES(?, ?, FROM_UNIXTIME(?, \'%Y-%m-%d %H:%i:%s\'), ?, ?, ?, ?, ?)', 'ssisissi', $arguments);
 
                 return $reservation_code;
             }
@@ -55,6 +60,20 @@
             {
                 throw new LogicException('Flight is full.');
             }
+        }
+
+        public function UpdateDetails($reservation_code, $name, $nric, $email, $contact_no)
+        {
+            if(is_numeric($contact_no) === FALSE)
+            {
+                throw new InvalidArgumentException('Invalid contact number.');
+            }
+
+            $arguments = array(&$name, &$nric, &$email, &$contact_no, &$reservation_code);
+
+            $statement = new Statement($this->mysqli, 'UPDATE reservations SET name = ?, nric = ?, email = ?, contact_no = ? WHERE reservation_code = ?', 'sisss', $arguments);
+
+            return $statement->GetAffectedRowCount();
         }
 
         public function IsSeatAvailable($flight_code, $seat_number)
@@ -125,7 +144,7 @@
             return $row;
         }
 
-        public function GetReservationWithFieldsFilter($reservation_code, $flight_code, $seat_number, $reservation_date_time, $input_date_time_format = Database::DATE_TIME_NO_FORMAT, $output_date_time_format = Database::DATE_TIME_NO_FORMAT)
+        public function GetReservationWithFieldsFilter($reservation_code, $flight_code, $reservation_date_time, $name, $nric, $email, $contact_no, $seat_number, $input_date_time_format = Database::DATE_TIME_NO_FORMAT, $output_date_time_format = Database::DATE_TIME_NO_FORMAT)
         {
             $first_filter_added = FALSE;
             $query;
@@ -136,17 +155,17 @@
             {
                 case Database::DATE_TIME_FORMAT_TO_DATE_ONLY:
                 {
-                    $query = 'SELECT reservation_code, flight_code, seat_number, DATE_FORMAT(reservation_date_time, \'%Y-%m-%d\') FROM reservations';
+                    $query = 'SELECT reservation_code, flight_code, DATE_FORMAT(reservation_date_time, \'%Y-%m-%d\'), name, nric, email, contact_no, seat_number FROM reservations';
                     break;
                 }
                 case Database::DATE_TIME_FORMAT_TO_TIME_ONLY:
                 {
-                    $query = 'SELECT reservation_code, flight_code, seat_number, DATE_FORMAT(reservation_date_time, \'%H:%i:%s\') FROM reservations';
+                    $query = 'SELECT reservation_code, flight_code, DATE_FORMAT(reservation_date_time, \'%H:%i:%s\'), name, nric, email, contact_no, seat_number FROM reservations';
                     break;
                 }
                 case Database::DATE_TIME_FORMAT_TO_UNIX_TIMESTAMP:
                 {
-                    $query = 'SELECT reservation_code, flight_code, seat_number, UNIX_TIMESTAMP(reservation_date_time) FROM reservations';
+                    $query = 'SELECT reservation_code, flight_code, UNIX_TIMESTAMP(reservation_date_time), name, nric, email, contact_no, seat_number FROM reservations';
                     break;
                 }
                 default:
@@ -171,16 +190,6 @@
 
                 $bound_argument_type = $bound_argument_type . 's';
                 $filters[] = &$flight_code;
-            }
-
-            if($seat_number !== NULL)
-            {
-                $_query = 'seat_number = ?';
-
-                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
-
-                $bound_argument_type = $bound_argument_type . 'i';
-                $filters[] = &$seat_number;
             }
 
             if($reservation_date_time !== NULL)
@@ -214,6 +223,61 @@
 
                 $bound_argument_type = $bound_argument_type . ($input_date_time_format === Database::DATE_TIME_FORMAT_TO_UNIX_TIMESTAMP ? 'i' : 's');
                 $filters[] = &$reservation_date_time;
+            }
+
+            if($name !== NULL)
+            {
+                $_query = 'name = ?';
+
+                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
+
+                $bound_argument_type = $bound_argument_type . 's';
+                $filters[] = &$name;
+            }
+
+            if($nric !== NULL)
+            {
+                $_query = 'nric = ?';
+
+                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
+
+                $bound_argument_type = $bound_argument_type . 'i';
+                $filters[] = &$nric;
+            }
+
+            if($email !== NULL)
+            {
+                $_query = 'email = ?';
+
+                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
+
+                $bound_argument_type = $bound_argument_type . 's';
+                $filters[] = &$email;
+            }
+
+            if($contact_no !== NULL)
+            {
+                if(is_numeric($contact_no) === FALSE)
+                {
+                    throw new InvalidArgumentException('Invalid contact number.');
+                }
+
+                $_query = 'contact_no = ?';
+
+                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
+
+                $bound_argument_type = $bound_argument_type . 's';
+                $filters[] = &$contact_no;
+            }
+
+            if($seat_number !== NULL)
+            {
+                $_query = 'seat_number = ?';
+
+                $this->GetReservationWithFieldsFilter2($first_filter_added, $query, $_query);
+
+                $bound_argument_type = $bound_argument_type . 'i';
+                $filters[] = &$seat_number;
             }
 
             $statement = new Statement($this->mysqli, $query, $bound_argument_type, $filters);
