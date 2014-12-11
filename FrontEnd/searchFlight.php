@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <body>
 
@@ -32,7 +33,7 @@
             <select name ="destCity">
                 <?php
                 $location_array = $locations->GetLocationWithFieldsFilter(NULL);
-                echo '<option value=\"\">Select Destination</option>';
+                echo '<option>Select Destination</option>';
                 foreach ($location_array as $location) {
                     echo '<option>' . $location[0] . '</option>';
                 }
@@ -55,32 +56,47 @@
             $date = (isset($_POST['deptDate']) ? $_POST['deptDate'] : null);
             $originCity = (isset($_POST['originCity']) ? $_POST['originCity'] : null);
             $destCity = (isset($_POST['destCity']) ? $_POST['destCity'] : null);
+            if (strpos($originCity, 'Select') !== false || strpos($destCity, 'Select') !== false) {
+                $originCity = null;
+                $destCity = null;
+            }
+            echo $destCity;
+            echo $originCity;
+            echo $date;
 
-            if ($date == null || $originCity == null || $destCity == null) {
+            if ($date == null or $originCity == null or $destCity == null) {
                 ?>
                 <tr> 
                     <td  colspan ="7">Click submit to begin searching using all the criteria</td>
                 </tr>
                 <?php
             } else {
-                $flightResult = $flights->GetFlightWithFieldsFilter(null, $originCity, null, $destCity, null, null, null);
-                foreach ($flightResult as $result) {
-                    ?>
-                <form action="reserveFlight.php" method="post">
-                    <tr>
-                        <td><?= $result[0] ?></td>
-                        <td><?= $result[1] ?></td>
-                        <td><?= $result[2] ?></td>
-                        <td><?= $result[3] ?></td>
-                        <td><?= $result[4] ?></td>
-                        <td><?= $result[5] ?></td>
-                        <td><?= $result[6] ?></td>
-                        <td><input type="submit" value="book"</td>
-                    <input type="hidden" name="flightCode" value="<?= $result[0]?>">
+                try {
+                    $flightResult = $flights->GetFlightWithFieldsFilter(null, $originCity, $date, $destCity, null, null, null, Database::DATE_TIME_FORMAT_TO_DATE_ONLY, null);
+                  
+                    foreach ($flightResult as $result) {
+                        ?>
+                        <form action="reserveFlight.php" method="post">
+                            <tr>
+                                <td><?= $result[0] ?></td>
+                                <td><?= $result[1] ?></td>
+                                <td><?= $result[2] ?></td>
+                                <td><?= $result[3] ?></td>
+                                <td><?= $result[4] ?></td>
+                                <td><?= $result[5] ?></td>
+                                <td><?= $result[6] ?></td>
+                                <td><input type="submit" value="book"</td>
+                            <input type="hidden" name="flightCode" value="<?= $result[0] ?>">
+
+                            </tr>
+                        </form>
+                        <?php
+                    }
+                } catch (Exception $e) {
+
+                    echo '<tr>';
+                    echo '<td colspan="7">No flights on that date, please try another date and click search</td></tr>';
                     
-                    </tr>
-                </form>
-                    <?php
                 }
             }
             ?>

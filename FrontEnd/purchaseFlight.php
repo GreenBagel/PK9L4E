@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <body>
         <?php
@@ -58,7 +59,7 @@
                     }
                     ?>
                 </table>
-                Here is your personal Detail
+                <h3>Here is your personal Detail</h3>
                 <table border ="1">
                     <tr>
                         <th>Name</th>
@@ -78,6 +79,26 @@
                     <?php }
                     ?>
                 </table>
+                <h3>Please Input your payment details</h3>
+                <form action="successPurchase" method="post">
+                    <table>
+                        <tr>
+                            <td>Payment type:</td>
+                            <td><select name="paymentMethod">
+                                    <option value="bankTransfer">Bank Transfer</option>
+                                    <option value="CreditCard">Credit Card</option>
+                                </select></td>
+                        </tr>
+                        <tr>
+                            <td>Payment Details:</td>
+                            <td><input type="text" name="paymentDetail"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" value="submit"></td>
+                        <input type="hidden" name="resCode" value="<?= $value[1] ?>">
+                        </tr>
+                    </table>
+                </form>
 
                 <?php
             }
