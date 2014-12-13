@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Search flight</title>
+        <link rel="stylesheet" href="../lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../lib/css/default2.css">
+        <link rel="stylesheet" href="../lib/css/search.css">
+        <script src="../lib/js/clockDisplay.js"></script>
+    </head>
     <body>
-
+        <div id="container">
+        <div id="header"><h3>Airline Reservation System</h3></div>
+        <div id="body">
+        <div id="clockbox"></div>
         <?php
         require_once('../database/database.php');
         require_once('../database/locations.php');
@@ -12,36 +22,54 @@
         $locations = new Locations($database);
         $flights = new Flights($database);
         ?>
-
-        <form action="searchFlight.php" method="post">
-            <h2>Search Flight</h2>
-            Date:
-            <input type="date" name="deptDate">
-
-            Origin:
-            <select name ="originCity">
-                <?php
-                $location_array = $locations->GetLocationWithFieldsFilter(NULL);
-                echo '<option>Select Origin</option>';
-                foreach ($location_array as $location) {
-                    echo '<option>' . $location[0] . '</option>';
-                }
-                ?>    
-            </select>
-
-            Destination:
-            <select name ="destCity">
-                <?php
-                $location_array = $locations->GetLocationWithFieldsFilter(NULL);
-                echo '<option>Select Destination</option>';
-                foreach ($location_array as $location) {
-                    echo '<option>' . $location[0] . '</option>';
-                }
-                ?> 
-            </select>
-            <input type="submit" value="submit"> 
+        <h2>Search Flight</h2>
+        <div id="form-wrapper">
+        <form class="form-inline form-horizontal" role="form" action="searchFlight.php" method="post">   
+            <div class="form-group">
+                <div class ="input-group">
+                    <label class="col-sm-2 control-label">Date:</label>
+                    <div class="col-sm-10">
+                    <input type="date" class="form-control" name="deptDate">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class ="input-group">
+                    <label class="col-sm-2 control-label">Origin:</label>
+                    <div class="col-sm-10">
+                    <select name ="originCity" class="form-control">
+                    <?php
+                    $location_array = $locations->GetLocationWithFieldsFilter(NULL);
+                    echo '<option>Select Origin</option>';
+                    foreach ($location_array as $location) {
+                        echo '<option>' . $location[0] . '</option>';
+                    }
+                    ?>    
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="col-sm-3 control-label">Destination:</label>
+                    <div class="col-sm-9">
+                    <select name ="destCity" class="form-control">
+                    <?php
+                    $location_array = $locations->GetLocationWithFieldsFilter(NULL);
+                    echo '<option>Select Destination</option>';
+                    foreach ($location_array as $location) {
+                        echo '<option>' . $location[0] . '</option>';
+                    }
+                    ?> 
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-default" value="submit"> 
         </form>
-        <table border="1">
+        </div>
+        <div id="table-wrapper">
+        <table class="table table-bordered" border="1">
             <tr>
                 <th>Flight code</th>
                 <th>Origin</th>
@@ -101,5 +129,9 @@
             }
             ?>
         </table>
+        </div>
+        </div>
+        <!-- <div id="footer"><p>G53SQM - Group A &copy 2014</p></div> -->
+        </div>
     </body>
 </html>

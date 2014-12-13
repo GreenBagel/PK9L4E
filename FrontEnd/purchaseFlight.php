@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Purchase flight</title>
+        <link rel="stylesheet" href="../lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../lib/css/default2.css">
+        <link rel="stylesheet" href="../lib/css/search.css">
+        <script src="../lib/js/clockDisplay.js"></script>
+    </head>
     <body>
+        <div id="container">
+        <div id="header"><h3>Airline Reservation System</h3></div>
+        <div id="body">
+        <div id="clockbox"></div>
         <?php
         require_once('../database/database.php');
         require_once('../database/locations.php');
@@ -14,11 +25,13 @@
         $customers = new Customers($database);
         $reservations = new Reservations($database);
         ?>
+        <div id="form-wrapper">
         <form action="purchaseFlight.php" method="post">
             Please input your reservation code to make payment: 
             <input type="text" name="resCode">
             <input type="submit" value="submit">
         </form>
+        </div>
         <?php
         $resCode = (isset($_POST['resCode']) ? $_POST['resCode'] : null);
         if ($resCode != null) {
@@ -104,5 +117,8 @@
             }
         }
         ?>
+        </div>
+        <!-- <div id="footer"><p>G53SQM - Group A &copy 2014</p></div> -->
+    </div>
     </body>
 </html>

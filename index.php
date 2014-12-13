@@ -2,17 +2,17 @@
 
     <head>
         <title>Home</title>
-        <link rel="stylesheet" href="./lib/css/default.css">
+        <link rel="stylesheet" href="./lib/bootstrap.min.css">
+        <link rel="stylesheet" href="./lib/css/default2.css">
+        <link rel="stylesheet" href="./lib/css/index.css">
         <script src="./lib/js/clockDisplay.js"></script>
-        <script type="text/javascript">           
-        </script>
 
     </head>
 
     <body>
-        <div id="header"><h3>Airline Reservation System</h3></div>
-
         <div id="container">
+        <div id="header"><h3>Airline Reservation System</h3></div>
+        <div id="body">
             <div id="clockbox"></div>
             <div id="menu">
                 <div id="link-wrapper">
@@ -23,7 +23,8 @@
             </div>
         </div>
 
-        <div id="footer"><p>G53SQM - Group A &copy 2014</p></div>
+        <!-- <div id="footer"><p>G53SQM - Group A &copy 2014</p></div> -->
+        </div>
     </body>
 
 </html>
