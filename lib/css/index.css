@@ -1,0 +1,35 @@
+#link1, #link2, #link3
+{
+float: left;
+margin-top: 20px;
+margin-left: 25px;
+margin-right: 25px;
+height:150px;
+width:150px;
+background: #FFF;
+}
+
+a.link
+{
+display: block;
+width: 100%;
+height: 100%;
+text-decoration: none;
+}
+
+#menu
+{
+height: 220px;
+width: 800px;
+background: #D3D3D3;
+margin-left: auto;
+margin-right: auto;
+}
+
+#link-wrapper
+{
+height: 100%;
+width:600px;
+margin-left: auto;
+margin-right: auto;
+}
