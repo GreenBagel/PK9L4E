@@ -20,8 +20,9 @@
         $ICNumber =$_POST['ICNumber'];
         $email =$_POST['email'];
         $phoneNum =$_POST['phoneNum'];
+        $seatNo = $_POST['seatNo'];
         
-        $reservationCode = $reservations->Add($flightCode, $name, $ICNumber, $email, $phoneNum, null);
+        $reservationCode = $reservations->Add($flightCode, $name, $ICNumber, $email, $phoneNum, $seatNo);
         
         if ($reservationCode != null){
             //$reservations->UpdateDetails($reservationCode, $name, $ICNumber, $email, $phoneNum);

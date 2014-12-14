@@ -22,10 +22,8 @@
         <?php
         $resCode = (isset($_POST['resCode']) ? $_POST['resCode'] : null);
         if ($resCode != null) {
-            $resCode = $reservations->GetReservationWithFieldsFilter($resCode, null, null, null, null, null, null, null, null);
-            if ($resCode == null) {
-                echo 'Wrong code inputted. Please check your code again';
-            } else {
+            try {
+                $resCode = $reservations->GetReservationWithFieldsFilter($resCode, null, null, null, null, null, null, null, null);
                 foreach ($resCode as $value) {
                     $flightNumber = $value[1];
                 }
@@ -66,6 +64,7 @@
                         <th>IC Number</th>
                         <th>email</th>
                         <th>Phone No</th>
+                        <th>Seat Number</th>
                     </tr>
                     <?php
                     foreach ($resCode as $value) {
@@ -75,18 +74,19 @@
                             <td><?= $value[4] ?></td>
                             <td><?= $value[5] ?></td>
                             <td><?= $value[6] ?></td>
+                            <td><?= $value[7] ?></td>
                         </tr>
                     <?php }
                     ?>
                 </table>
                 <h3>Please Input your payment details</h3>
-                <form action="successPurchase" method="post">
+                <form action="paymentToDB.php" method="post">
                     <table>
                         <tr>
                             <td>Payment type:</td>
                             <td><select name="paymentMethod">
-                                    <option value="bankTransfer">Bank Transfer</option>
-                                    <option value="CreditCard">Credit Card</option>
+                                    <option value="bank Transfer">Bank Transfer</option>
+                                    <option value="Credit Card">Credit Card</option>
                                 </select></td>
                         </tr>
                         <tr>
@@ -95,12 +95,13 @@
                         </tr>
                         <tr>
                             <td><input type="submit" value="submit"></td>
-                        <input type="hidden" name="resCode" value="<?= $value[1] ?>">
+                        <input type="hidden" name="resCode" value="<?= $value[0] ?>">
                         </tr>
                     </table>
                 </form>
-
                 <?php
+            } catch (Exception $e) {
+                echo 'Wrong code inputted. Please check your code again';
             }
         }
         ?>

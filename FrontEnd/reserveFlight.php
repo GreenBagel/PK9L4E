@@ -5,11 +5,15 @@
         require_once('../database/database.php');
         require_once('../database/locations.php');
         require_once('../database/flights.php');
+        require_once('../database/customers.php');
+        require_once('../database/reservations.php');
 
 
         $database = new Database('root', '', 'sqm_fp');
         $locations = new Locations($database);
         $flights = new Flights($database);
+        $customers = new Customers($database);
+        $reservations = new Reservations($database);
         ?>
         <h3>This is the detail of the flight you've choosen</h3>
         <table border="1">
@@ -58,6 +62,35 @@
                 <tr>
                     <td>Phone number:</td>
                     <td><input type='number' name='phoneNum'</td>
+                </tr>
+                <tr>
+                    <td>Seat Number:</td>
+                    <td>
+                        <select name ="seatNo">
+                        <?php
+                        $seat = array();
+
+
+                        $maxSeat = $flights->GetMaxSeatNumber($result[0]);
+                        $seatTaken = $reservations->GetOccupiedSeats($result[0]);
+
+                        for ($i = 1; $i <= $maxSeat; $i++) {
+                            $taken = true;
+                            for ($j = 0; $j < count($seatTaken); $j++) {
+                                if ($seatTaken[$j] == $i) {
+                                    $taken = false;
+                                }
+                            }
+                            if ($taken) {
+                                array_push($seat, $i);
+                            }
+                        }
+                        foreach ($seat as $values) {
+                            echo '<option>' . $values . '</option>';
+                        }                        
+                        ?>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td rowspan ='2'><input type='submit' value='Reserve'></td>

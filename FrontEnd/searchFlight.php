@@ -60,9 +60,6 @@
                 $originCity = null;
                 $destCity = null;
             }
-            echo $destCity;
-            echo $originCity;
-            echo $date;
 
             if ($date == null or $originCity == null or $destCity == null) {
                 ?>
