@@ -113,7 +113,7 @@
                                 <td><?= $result[4] ?></td>
                                 <td><?= $result[5] ?></td>
                                 <td><?= $result[6] ?></td>
-                                <td><input type="submit" value="book"</td>
+                                <td><input type="submit" class="btn btn-default" value="Book"</td>
                             <input type="hidden" name="flightCode" value="<?= $result[0] ?>">
 
                             </tr>

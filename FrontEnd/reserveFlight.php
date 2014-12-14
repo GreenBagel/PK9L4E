@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Reserve flight</title>
+        <link rel="stylesheet" href="../lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../lib/css/reserve.css">
+        <link rel="stylesheet" href="../lib/css/default2.css">
+        <script src="../lib/js/clockDisplay.js"></script>
+    </head>
     <body>
+        <div id="container">
+        <div id="header"><h3>Airline Reservation System</h3></div>
+        <div id="body">
+        <div id="clockbox"></div>
+        <h2>Reserve Flight</h2>
         <?php
         require_once('../database/database.php');
         require_once('../database/locations.php');
@@ -11,9 +23,11 @@
         $locations = new Locations($database);
         $flights = new Flights($database);
         ?>
-        <h3>This is the detail of the flight you've choosen</h3>
-        <table border="1">
-            <tr>
+        
+        <div id="table-wrapper">
+            <h3>This is the detail of the flight you've choosen</h3>
+        <table class="table table-bordered" border="1">
+            <!-- <tr>
                 <th>Flight code</th>
                 <th>Origin</th>
                 <th>Destination</th>
@@ -21,49 +35,82 @@
                 <th>Arrival Date & Time</th>
                 <th>Seats available</th>
                 <th>Price</th>
-            </tr>
+            </tr> -->
             <?php
+            $tableHeader = ['Flight Code', 'Origin', 'Destination','Depature Date & Time','Arrival Date & Time','Seats availabe', 'Price'];
             $flightCode = $_POST['flightCode'];
-            $result = $flights->GetFlightWithFieldsFilter($flightCode, null, null, null, null, null, null);
-            foreach ($result as $result) {
+            $results = $flights->GetFlightWithFieldsFilter($flightCode, null, null, null, null, null, null);
+            foreach ($results as $result) {
                 ?>
                 <tr>
+                    <th><?= $tableHeader[0] ?></th>
                     <td><?= $result[0] ?></td>
+                </tr>
+                <tr>
+                    <th><?= $tableHeader[1] ?></th>
                     <td><?= $result[1] ?></td>
+                </tr>
+                <tr>
+                    <th><?= $tableHeader[2] ?></th>
                     <td><?= $result[2] ?></td>
+                </tr>
+                <tr>
+                    <th><?= $tableHeader[3] ?></th>
                     <td><?= $result[3] ?></td>
+                </tr>
+                <tr>
+                    <th><?= $tableHeader[4] ?></th>
                     <td><?= $result[4] ?></td>
+                </tr>
+                <tr>
+                    <th><?= $tableHeader[5] ?></th>
                     <td><?= $result[5] ?></td>
+                </tr>
+                <tr>
+                    <th><?= $tableHeader[6] ?></th>
                     <td><?= $result[6] ?></td>
                 </tr>
                 <?php
             }
             ?>
         </table>
-        <h3>Please enter your personal data</h3>
-        <form action='reserveToDB.php' method='post'>
-            <table>
-                <tr>
-                    <td>Full Name:</td>
-                    <td><input type='text' name='name'</td>
-                </tr>
-                <tr>
-                    <td>IC number:</td>
-                    <td><input type='text' name ='ICNumber'</td>
-                </tr>
-                <tr>
-                    <td>Email address:</td>
-                    <td><input type='email' name='email'</td>
-                </tr>
-                <tr>
-                    <td>Phone number:</td>
-                    <td><input type='number' name='phoneNum'</td>
-                </tr>
-                <tr>
-                    <td rowspan ='2'><input type='submit' value='Reserve'></td>
-                <input type ='hidden' name='flightCode' value='<?= $flightCode ?>'>
-                </tr>
-            </table>
+        </div>
+        
+        <div id="form-wrapper">
+            <h3>Please enter your personal data</h3>
+        <form class ="form-horizontal" role="form" action='reserveToDB.php' method='post'>
+            <div class ="form-group">
+                <label class="col-sm-2 control-label">Full Name:</label>
+                <div class="col-sm-5">
+                <input class="form-control" type='text' name='name'>
+                </div>
+            </div>
+
+            <div class = "form-group">    
+                    <label class="col-sm-2 control-label">IC number:</label>
+                <div class="col-sm-5">
+                    <input class="form-control" type='text' name ='ICNumber'>
+                </div>
+            </div>
+
+            <div class = "form-group">
+                    <label class="col-sm-2 control-label">Email address:</label>
+                    <div class="col-sm-5">
+                    <input class="form-control" type='email' name='email'>
+                    </div>
+            </div>
+
+            <div class = "form-group">    
+                    <label class="col-sm-2 control-label">Phone number:</label>
+                    <div class="col-sm-5">
+                    <input class="form-control" type='number' name='phoneNum'>
+                    </div>
+            </div>    
+                <input class="btn btn-default" type='submit' value='Reserve'>
+                <input type ='hidden' name='flightCode' value='<?= $flightCode ?>'>    
         </form>
+        </div>
+        </div>
+        </div>
     </body>
 </html>
