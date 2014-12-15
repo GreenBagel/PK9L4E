@@ -37,146 +37,50 @@
 
      		<!-- Flight Code -->
             <tr>
-                <th>Flight code</th>
+                <th align="center">Flight code</th>
+                <th align="center">Origin</th>
+                <th align="center">Departure Date & Time</th>
+                <th align="center">Seat Number </th>
+                <th align="center">Name</th>
+                <th align="center">NRIC</th>
+                <th align="center">Contact Number</th>
+                <th align="center">Email Address</th>
+
+            </tr>
 
                 <?php
                 $reservation_code = (isset($_POST['code']) ? $_POST['code'] : null);
                 if ($reservation_code == null) {
                 ?> 
-                    <td> </td>
-             <?php   
-            } else {
+                	<tr> 
+                    	<td  colspan ="8" align="center">Flight information will be diplayed here.</td>
+                	</tr>             
+                <?php   
+            	} else {
             	try {
             		$resInfo = $res->GetReservationWithFieldsFilter($reservation_code, null, null, null, null, null, null, null, null, null);
 
             		foreach ($resInfo as $result) {
             		?>
-            			<td> <?= $result[1] ?> </td>
+            		<tr>
+            			<td align="center"> <?= $result[1]?> </td> <!-- Flight Code -->
+            			<td align="center"> <?= $result[2]?> </td> <!-- Origin -->
+            			<td align="center"> <?= $result[2]?> </td>	<!-- Departure Date & Time -->
+            			<td align="center"> <?= $result[7]?> </td> <!-- Seat Number -->
+            			<td align="center"> <?= $result[3]?> </td> <!-- Name -->
+            			<td align="center"> <?= $result[4]?> </td> <!-- NRIC -->
+            			<td align="center"> <?= $result[6]?> </td> <!-- Contact Number -->
+            			<td align="center"> <?= $result[5]?> </td> <!-- Email Address -->
+            		</tr>
             		<?php
             		}
             	}
             	catch(Exception $e) {
-            		echo 'Invalid Reservation Code!';
+            		echo '<td colspan="8" align="center"> Invalid Reservation Code </td>';
             	}
             } 
             	?>
-            </tr>
-
-
-            <!-- Origin -->
-            <tr>
-                <th>Origin</th>
-
-                <?php 
-                if ($reservation_code == null) {
-                ?>
-                	<td> </td>
-               	<?php 
-               	} else {
-               	?>
-                	<td> <?= $result[2]?> </td>
-                <?php
-            	} ?>
-            </tr>
-
-            <!-- Departure Date & Time -->
-            <tr>
-                <th>Departure Date & Time</th>
-
-                <?php 
-                if ($reservation_code == null) {	
-                ?>
-                	<td> </td>
-                <?php
-            	} else {
-            	?>
-            		<td> <?= $result[2]?> </td>
-            	<?php
-            	} ?>
-            </tr>
-
-            <!-- Price -->
-            <tr>
-                <th>Price</th>
-
-                <?php 
-                if ($reservation_code == null) {	
-                ?>
-                	<td> </td>
-                <?php
-            	} else {
-            	?>
-            		<td> <?= $result[2]?> </td>
-            	<?php
-            	} ?>
-            </tr>
-        </table>
-
-    <br/>
-
-        <table border="1">
-
-        	<!-- Name -->
-            <tr>
-                <th>Name</th>
-
-                <?php 
-                if ($reservation_code == null) {	
-                ?>
-                	<td> </td>
-                <?php
-            	} else {
-            	?>
-            		<td> <?= $result[3]?> </td>
-            	<?php
-            	} ?>
-            </tr>
-
-            <!-- NRIC -->
-            <tr>
-                <th>NRIC</th>
-
-                <?php 
-                if ($reservation_code == null) {	
-                ?>
-                	<td> </td>
-                <?php
-            	} else {
-            	?>
-            		<td> <?= $result[4]?> </td>
-            	<?php
-            	} ?>
-
-            <!-- Contact Number -->
-            </tr>
-                <th>Contact Number</th>
-                
-                <?php 
-                if ($reservation_code == null) {	
-                ?>
-                	<td> </td>
-                <?php
-            	} else {
-            	?>
-            		<td> <?= $result[6]?> </td>
-            	<?php
-            	} ?>
-
-            <!-- Email -->
-            <tr>
-                <th>Email Address</th>
-                
-                <?php 
-                if ($reservation_code == null) {	
-                ?>
-                	<td> </td>
-                <?php
-            	} else {
-            	?>
-            		<td> <?= $result[5]?> </td>
-            	<?php
-            	} ?>
-            </tr>
+           
         </table>
 
 
