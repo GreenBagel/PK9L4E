@@ -62,20 +62,24 @@
             	} else {
             	try {
             		$resInfo = $res->GetReservationWithFieldsFilter($reservation_code, null, null, null, null, null, null, null, null, null);
+            		//$resInfo2 = $flights->GetFlightWithFieldsFilter($result[1], null, null, null, null, null, null, null, null);
 
             		foreach ($resInfo as $result) {
+            			$resInfo2 = $flights->GetFlightWithFieldsFilter($result[1], null, null, null, null, null, null, null, null);
+            			foreach ($resInfo2 as $result2) {
             		?>
-            		<tr>
-            			<td align="center"> <?= $result[1]?> </td> <!-- Flight Code -->
-            			<td align="center"> <?= $result[2]?> </td> <!-- Origin -->
-            			<td align="center"> <?= $result[2]?> </td>	<!-- Departure Date & Time -->
-            			<td align="center"> <?= $result[7]?> </td> <!-- Seat Number -->
-            			<td align="center"> <?= $result[3]?> </td> <!-- Name -->
-            			<td align="center"> <?= $result[4]?> </td> <!-- NRIC -->
-            			<td align="center"> <?= $result[6]?> </td> <!-- Contact Number -->
-            			<td align="center"> <?= $result[5]?> </td> <!-- Email Address -->
-            		</tr>
-            		<?php
+            				<tr>
+            					<td align="center"> <?= $result[1]?> </td> <!-- Flight Code -->
+            					<td align="center"> <?= $result2[1]?> </td> <!-- Origin -->
+            					<td align="center"> <?= $result2[2]?> </td>	<!-- Departure Date & Time -->
+            					<td align="center"> <?= $result[7]?> </td> <!-- Seat Number -->
+            					<td align="center"> <?= $result[3]?> </td> <!-- Name -->
+            					<td align="center"> <?= $result[4]?> </td> <!-- NRIC -->
+            					<td align="center"> <?= $result[6]?> </td> <!-- Contact Number -->
+            					<td align="center"> <?= $result[5]?> </td> <!-- Email Address -->
+            				</tr>
+            	<?php
+            			}
             		}
             	}
             	catch(Exception $e) {
