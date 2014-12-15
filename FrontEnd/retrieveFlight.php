@@ -25,15 +25,18 @@
     ?>
 
     <!-- Form -->
+    <br/>
+    <div align = 'center'>
     <form class="form-inline form-horizontal" role="form" action="retrieveFlight.php" method="post">
     	Reservation Code: &nbsp
     	<input type="text" name="code"> &nbsp
-    	<input type="submit" class="btn btn-default" value="submit">
+    	<input type="submit" class="btn btn-default" value="Submit">
     </form>
+	</div>
 
     <br/> <br/> <br/>
 
-     <table border="1">
+     <table border="1" class="table table-bordered">
 
      		<!-- Flight Code -->
             <tr>
