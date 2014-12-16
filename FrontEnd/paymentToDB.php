@@ -19,7 +19,7 @@
         $paymentDetail = $_POST['paymentDetail'];
         $customers->ConfirmPayment($resCode, $paymentMethod, $paymentDetail);
         ?>
-        <a href="/PK9L4E/index.php">Go back</a>
+        <a href="../index.php">Go back</a>
         
     </body>
 </html>

@@ -29,7 +29,7 @@
             ?>
         Your booking is successful. Here is your booking code: <?= $reservationCode?>
         <br> Please write this down because you need this code to make payment.<br>
-        Go to <a href="/PK9L4E/index.php">Home Page</a> to make payment.
+        Go to <a href="../index.php">Home Page</a> to make payment.
                 
                 <?php
         }else{
