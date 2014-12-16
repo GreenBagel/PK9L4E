@@ -4,7 +4,7 @@
         <title>Purchase flight</title>
         <link rel="stylesheet" href="../lib/bootstrap.min.css">
         <link rel="stylesheet" href="../lib/css/default2.css">
-        <link rel="stylesheet" href="../lib/css/search.css">
+        <link rel="stylesheet" href="../lib/css/purchase.css">
         <script src="../lib/js/clockDisplay.js"></script>
     </head>
     <body>
@@ -26,10 +26,14 @@
                 $reservations = new Reservations($database);
                 ?>
                 <div id="form-wrapper">
-                    <form action="purchaseFlight.php" method="post">
-                        Please input your reservation code to make payment: 
-                        <input type="text" name="resCode">
-                        <input type="submit" value="submit">
+                    <form class="horizontal-form" action="purchaseFlight.php" method="post">
+                        <div class="form-group">
+                        <label class="col-sm-6 control-label">Please input your reservation code to make payment:</label>
+                        <div class="col-sm-3"> 
+                        <input class="form-control" type="text" name="resCode">
+                        </div>
+                        </div>
+                        <input class="btn btn-default" type="submit" value="submit">
                     </form>
                 </div>
                 <?php
@@ -46,75 +50,105 @@
                         if (!$hasPaid) {
                             $flightData = $flights->GetFlightWithFieldsFilter($flightNumber, null, null, null, null, null, null);
                             ?>
+                            <div id="flight-details">
                             <h3>Here is your Flight Details</h3><br>
-                            <table border="1">
-                                <tr>
-                                    <th>Flight code</th>
-                                    <th>Origin</th>
-                                    <th>Destination</th>
-                                    <th>Departure Date & Time</th>
-                                    <th>Arrival Date & Time</th>
-                                    <th>Seats available</th>
-                                    <th>Price</th>
-                                </tr>
+                            <table class="table table-bordered" border="1">
+        
                                 <?php
                                 foreach ($flightData as $result) {
                                     ?>
                                     <tr>
+                                        <th>Flight code</th>
                                         <td><?= $result[0] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Origin</th>
                                         <td><?= $result[1] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Destination</th>    
                                         <td><?= $result[2] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Departure Date & Time</th>   
                                         <td><?= $result[3] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Arrival Date & Time</th>
                                         <td><?= $result[4] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Seats available</th>
                                         <td><?= $result[5] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Price</th>
                                         <td><?= $result[6] ?></td>
                                     </tr>
                                     <?php
                                 }
                                 ?>
                             </table>
-                            <h3>Here is your personal Detail</h3>
-                            <table border ="1">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>IC Number</th>
-                                    <th>email</th>
-                                    <th>Phone No</th>
-                                    <th>Seat Number</th>
-                                </tr>
+                            </div>
+                            <div id="personal-details">
+                            <h3>Here is your personal Detail</h3><br>
+                            <table class="table table-bordered" border ="1">
+                                
                                 <?php
                                 foreach ($resCode as $value) {
                                     ?>
                                     <tr>
+                                        <th>Name</th>
                                         <td><?= $value[3] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>IC Number</th>
                                         <td><?= $value[4] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>email</th>
                                         <td><?= $value[5] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Phone No</th>
                                         <td><?= $value[6] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Seat Number</th>
                                         <td><?= $value[7] ?></td>
                                     </tr>
                                 <?php }
                                 ?>
                             </table>
+                            </div>
+
+                            <div id="payment-details">
                             <h3>Please Input your payment details</h3>
-                            <form action="paymentToDB.php" method="post">
-                                <table>
-                                    <tr>
-                                        <td>Payment type:</td>
-                                        <td><select name="paymentMethod">
+                            <form class ="form-horizontal" role="form" action="paymentToDB.php" method="post">
+                                
+                                    <div class = "form-group">
+                                        <label class ="col-sm-2 control-label">Payment type:</label>
+                                        <div class="col-sm-5">
+                                        <select name="paymentMethod">
                                                 <option value="bank Transfer">Bank Transfer</option>
                                                 <option value="Credit Card">Credit Card</option>
-                                            </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Payment Details:</td>
-                                        <td><input type="text" name="paymentDetail"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="submit" value="submit"></td>
+                                        </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class = "form-group">
+                                        <label class="col-sm-2 control-label">Payment Details:</label>
+                                        <div class = "col-sm-2">
+                                        <input class="form-control" type="text" name="paymentDetail">
+                                        </div>
+                                    </div>
+        
+                                    <input class="btn btn-default" type="submit" value="submit">
                                     <input type="hidden" name="resCode" value="<?= $value[0] ?>">
-                                    </tr>
-                                </table>
+                                    
+                                
                             </form>
+                            </div>
                             <?php
                         } else {
                             echo 'Your flight has been paid<br>';

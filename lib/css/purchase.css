@@ -1,0 +1,31 @@
+table
+{
+	width: 80%;
+}
+
+
+#form-wrapper
+{	
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#flight-details
+{
+	float: left;
+	width: 50%;
+	height:30%;
+}
+
+#personal-details
+{
+	float: right;
+	width: 50%;
+	height:30%;
+}
+
+#payment-details
+{
+	float: left;
+	width: 100%;
+}

@@ -9,7 +9,11 @@
     </head>
 
     <body>
-        <h3 align="center", id="header">Retrieve Flight</h3>
+        <div id="container">
+        <div id="header"><h3>Airline Reservation System</h3></div>
+        <div id="body">
+        <div id="clockbox"></div>
+        <h2>Retrieve flight</h2>
 
         <!-- PHP -->
         <?php
@@ -27,16 +31,19 @@
         ?>
 
         <!-- Form -->
-        <br/>
         <div align = 'center'>
             <form class="form-inline form-horizontal" role="form" action="retrieveFlight.php" method="post">
-                Reservation Code: &nbsp
-                <input type="text" name="code"> &nbsp
+                <div class="form-group">
+                <label class="col-sm-4 label-control">Reservation Code: &nbsp </label>
+                <div class="col-sm-4">
+                <input class="form-control" type="text" name="code"> &nbsp
+                </div>
+                <div class="col-sm-4">
                 <input type="submit" class="btn btn-default" value="Submit">
+                </div>
+                </div>
             </form>
         </div>
-
-        <br/> <br/> <br/>
 
         <table border="1" class="table table-bordered">
 
@@ -96,7 +103,8 @@
             ?>
 
         </table>
-
+        </div>
+        </div>
 
     </body>
 
