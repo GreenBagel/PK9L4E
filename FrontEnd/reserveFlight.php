@@ -70,43 +70,17 @@
                     <th><?= $tableHeader[5] ?></th>
                     <td><?= $result[5] ?></td>
                 </tr>
+                <!-- <tr> -->
+                    <!-- <td>Seat Number:</td> -->
+                    <!-- <td> -->
+                        
+                    <!-- </td> -->
+                <!-- </tr> -->
                 <tr>
-<<<<<<< HEAD
-                    <td>Seat Number:</td>
-                    <td>
-                        <select name ="seatNo">
-                        <?php
-                        $seat = array();
-
-
-                        $maxSeat = $flights->GetMaxSeatNumber($result[0]);
-                        $seatTaken = $reservations->GetOccupiedSeats($result[0]);
-
-                        for ($i = 1; $i <= $maxSeat; $i++) {
-                            $taken = true;
-                            for ($j = 0; $j < count($seatTaken); $j++) {
-                                if ($seatTaken[$j] == $i) {
-                                    $taken = false;
-                                }
-                            }
-                            if ($taken) {
-                                array_push($seat, $i);
-                            }
-                        }
-                        foreach ($seat as $values) {
-                            echo '<option>' . $values . '</option>';
-                        }                        
-                        ?>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan ='2'><input type='submit' value='Reserve'></td>
-                <input type ='hidden' name='flightCode' value='<?= $flightCode ?>'>
-=======
+                    <!-- <td rowspan ='2'><input type='submit' value='Reserve'></td> -->
+                <!-- <input type ='hidden' name='flightCode' value='<?= $flightCode ?>'> -->
                     <th><?= $tableHeader[6] ?></th>
                     <td><?= $result[6] ?></td>
->>>>>>> origin/master
                 </tr>
                 <?php
             }
@@ -142,6 +116,35 @@
                     <label class="col-sm-2 control-label">Phone number:</label>
                     <div class="col-sm-5">
                     <input class="form-control" type='number' name='phoneNum'>
+                    </div>
+            </div>
+            <div class = "form-group">
+                    <label class="col-sm-2 control-label">Seat number:</label>
+                    <div class="col-sm-5">
+                        <select name ="seatNo">
+                        <?php
+                        $seat = array();
+
+
+                        $maxSeat = $flights->GetMaxSeatNumber($result[0]);
+                        $seatTaken = $reservations->GetOccupiedSeats($result[0]);
+
+                        for ($i = 1; $i <= $maxSeat; $i++) {
+                            $taken = true;
+                            for ($j = 0; $j < count($seatTaken); $j++) {
+                                if ($seatTaken[$j] == $i) {
+                                    $taken = false;
+                                }
+                            }
+                            if ($taken) {
+                                array_push($seat, $i);
+                            }
+                        }
+                        foreach ($seat as $values) {
+                            echo '<option>' . $values . '</option>';
+                        }                        
+                        ?>
+                        </select>
                     </div>
             </div>    
                 <input class="btn btn-default" type='submit' value='Reserve'>

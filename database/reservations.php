@@ -17,7 +17,7 @@
         }
 
         /*!
-        Try to add a new reservation. If seat_number is not specified, a rondom seat is given.
+        Try to add a new reservation. If seat_number is not specified, a random seat is given.
         */
         public function Add($flight_code, $name, $nric, $email, $contact_no, $seat_number = NULL)
         {
