@@ -16,9 +16,9 @@
             <div id="clockbox"></div>
             <div id="menu">
                 <div id="link-wrapper">
-                    <div id="link1"><a class='link' href="./FrontEnd/searchFlight.php">Search flight</a></div>
-                    <div id="link2"><a class='link' href="./FrontEnd/purchaseFlight.php">Make payment</a></div>
-                    <div id="link3"><a class='link' href="./FrontEnd/retrieveFlight.php">Retrieve flight details</a></div>
+                    <div id="link1"><a class='link' href="./FrontEnd/searchFlight.php">Search Flight</a></div>
+                    <div id="link2"><a class='link' href="./FrontEnd/purchaseFlight.php">Make Payment</a></div>
+                    <div id="link3"><a class='link' href="./FrontEnd/retrieveFlight.php">Retrieve Flight Details</a></div>
                 </div>	
             </div>
         </div>

@@ -12,6 +12,7 @@
             <div id="header"><a href="../index.php"><h3>Airline Reservation System<img id="home-icon" src="../lib/image/home-icon.png" alt="Home"></h3></a></div>
             <div id="body">
                 <div id="clockbox"></div>
+                <h2>Make Payment</h2>
                 <?php
                 require_once('../database/database.php');
                 require_once('../database/locations.php');
@@ -33,7 +34,7 @@
                         <input class="form-control" type="text" name="resCode">
                         </div>
                         </div>
-                        <input class="btn btn-default" type="submit" value="submit">
+                        <input class="btn btn-primary" type="submit" value="submit">
                     </form>
                 </div>
                 <?php

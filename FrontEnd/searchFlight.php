@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../lib/css/default2.css">
         <link rel="stylesheet" href="../lib/css/search.css">
         <script src="../lib/js/clockDisplay.js"></script>
+        <script src="../lib/js/search.js"></script>
     </head>
     <body>
         <div id="container">
@@ -25,12 +26,12 @@
                 ?>
                 <h2>Search Flight</h2>
                 <div id="form-wrapper">
-                    <form class="form-inline form-horizontal" role="form" action="searchFlight.php" method="post">   
+                    <form class="form-inline form-horizontal" role="form" name="myForm" action="searchFlight.php" onsubmit="javascript:return validate();" method="post">   
                         <div class="form-group">
                             <div class ="input-group">
                                 <label class="col-sm-2 control-label">Date:</label>
                                 <div class="col-sm-10">
-                                    <input type="date" class="form-control" name="deptDate">
+                                    <input id="date" type="date" class="form-control" name="deptDate">
                                 </div>
                             </div>
                         </div>
@@ -38,12 +39,15 @@
                             <div class ="input-group">
                                 <label class="col-sm-2 control-label">Origin:</label>
                                 <div class="col-sm-10">
-                                    <select name ="originCity" class="form-control">
+                                    <select id="originCity" name ="originCity" class="form-control">
                                         <?php
-                                        $location_array = $locations->GetLocationWithFieldsFilter(NULL);
-                                        echo '<option>Select Origin</option>';
+                                        $location_array = $locations->GetLocationWithFieldsFilter(NULL);?>
+                                        <option value="">Select Origin</option>
+                                        <?php
                                         foreach ($location_array as $location) {
-                                            echo '<option>' . $location[0] . '</option>';
+                                        ?>
+                                            <option value="<?= $location[0] ?>"><?php echo $location[0] ?></option>
+                                        <?php
                                         }
                                         ?>    
                                     </select>
@@ -54,19 +58,22 @@
                             <div class="input-group">
                                 <label class="col-sm-3 control-label">Destination:</label>
                                 <div class="col-sm-9">
-                                    <select name ="destCity" class="form-control">
+                                    <select id="destCity" name ="destCity" class="form-control">
                                         <?php
-                                        $location_array = $locations->GetLocationWithFieldsFilter(NULL);
-                                        echo '<option>Select Destination</option>';
+                                        $location_array = $locations->GetLocationWithFieldsFilter(NULL);?>
+                                        <option value="">Select Destination</option>
+                                        <?php
                                         foreach ($location_array as $location) {
-                                            echo '<option>' . $location[0] . '</option>';
+                                        ?>
+                                            <option value="<?= $location[0] ?>"><?php echo $location[0] ?></option>
+                                        <?php
                                         }
                                         ?> 
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-default" value="submit"> 
+                        <input type="submit" class="btn btn-primary" value="submit"> 
                     </form>
                 </div>
                 <div id="table-wrapper">

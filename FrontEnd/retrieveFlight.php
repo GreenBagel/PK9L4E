@@ -4,7 +4,7 @@
         <title>Retrieve Flight</title>
         <link rel="stylesheet" href="../lib/bootstrap.min.css">
         <link rel="stylesheet" href="../lib/css/default2.css">
-        <link rel="stylesheet" href="../lib/css/search.css">
+        <link rel="stylesheet" href="../lib/css/retrieve.css">
         <script src="../lib/js/clockDisplay.js"></script>
     </head>
 
@@ -31,17 +31,15 @@
         ?>
 
         <!-- Form -->
-        <div align = 'center'>
-            <form class="form-inline form-horizontal" role="form" action="retrieveFlight.php" method="post">
+        <div id="form-wrapper">
+            <form class="horizontal-form" role="form" action="retrieveFlight.php" method="post">
                 <div class="form-group">
-                <label class="col-sm-4 label-control">Reservation Code: &nbsp </label>
+                <label class="col-sm-4 control-label">Reservation Code: &nbsp </label>
                 <div class="col-sm-4">
                 <input class="form-control" type="text" name="code"> &nbsp
+                </div> 
                 </div>
-                <div class="col-sm-4">
-                <input type="submit" class="btn btn-default" value="Submit">
-                </div>
-                </div>
+                <input class="btn btn-primary" type="submit" value="Submit">
             </form>
         </div>
 
