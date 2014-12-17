@@ -14,20 +14,26 @@ padding-bottom: 60px;
 #header,#footer
 {
 background: #005480;
-color: #FFF;
 font-family: Helvetica;
 }
 
 #header
 {
 margin-top:-10px;
-font-size: 35px;
 min-height: 60px;
+}
+
+#header a
+{
+color: #FFF;
+text-decoration: none;
 }
 
 #header h3
 {
+padding: 10px 0px 10px;
 margin:10px 20px 10px;
+font-size: 35px;
 }
 
 #container
@@ -55,3 +61,9 @@ font-size: 20px;
 text-align: right;
 }
 
+#home-icon
+{	
+	margin: 0px 20px 0px;
+	width: 40px;
+	height: 40px;
+}

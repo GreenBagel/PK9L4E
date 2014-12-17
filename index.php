@@ -11,7 +11,7 @@
 
     <body>
         <div id="container">
-        <div id="header"><h3>Airline Reservation System</h3></div>
+        <div id="header"><a href="index.php"><h3>Airline Reservation System<img id="home-icon" src="./lib/image/home-icon.png" alt="Home"></h3></a></div>
         <div id="body">
             <div id="clockbox"></div>
             <div id="menu">
