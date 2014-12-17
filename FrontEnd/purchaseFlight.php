@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../lib/css/default2.css">
         <link rel="stylesheet" href="../lib/css/purchase.css">
         <script src="../lib/js/clockDisplay.js"></script>
+        <script src="../lib/js/purchase.js"></script>
     </head>
     <body>
         <div id="container">
@@ -27,7 +28,7 @@
                 $reservations = new Reservations($database);
                 ?>
                 <div id="form-wrapper">
-                    <form class="horizontal-form" action="purchaseFlight.php" method="post">
+                    <form class="horizontal-form" name="myForm" action="purchaseFlight.php" onsubmit="javascript:return validateReserveCode();" method="post">
                         <div class="form-group">
                         <label class="col-sm-6 control-label">Please input your reservation code to make payment:</label>
                         <div class="col-sm-3"> 
@@ -125,10 +126,10 @@
 
                             <div id="payment-details">
                             <h3>Please Input your payment details</h3>
-                            <form class ="form-horizontal" role="form" action="paymentToDB.php" method="post">
+                            <form class ="form-horizontal" role="form" name="myForm2" action="paymentToDB.php" onsubmit="javascript:return validatePayment();" method="post">
                                 
                                     <div class = "form-group">
-                                        <label class ="col-sm-2 control-label">Payment type:</label>
+                                        <label class ="col-sm-2 control-label">Payment Method:</label>
                                         <div class="col-sm-5">
                                         <select name="paymentMethod">
                                                 <option value="bank Transfer">Bank Transfer</option>
@@ -144,7 +145,7 @@
                                         </div>
                                     </div>
         
-                                    <input class="btn btn-default" type="submit" value="submit">
+                                    <input class="btn btn-primary" type="submit" value="submit">
                                     <input type="hidden" name="resCode" value="<?= $value[0] ?>">
                                     
                                 
@@ -156,7 +157,7 @@
                             echo '<a href="../index.php">Go back</a>';
                         }
                     } catch (Exception $e) {
-                        echo 'Wrong code inputted. Please check your code again';
+                        echo 'Invalid code provided. Please reconfirm you have entered your code correctly';
                     }
                 }
                 ?>

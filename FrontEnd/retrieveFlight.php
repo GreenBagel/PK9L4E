@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../lib/css/default2.css">
         <link rel="stylesheet" href="../lib/css/retrieve.css">
         <script src="../lib/js/clockDisplay.js"></script>
+        <script src="../lib/js/retrieve.js"></script>
     </head>
 
     <body>
@@ -32,7 +33,7 @@
 
         <!-- Form -->
         <div id="form-wrapper">
-            <form class="horizontal-form" role="form" action="retrieveFlight.php" method="post">
+            <form class="horizontal-form" role="form" name="myForm" action="retrieveFlight.php" onsubmit="javascript:return validate();" method="post">
                 <div class="form-group">
                 <label class="col-sm-4 control-label">Reservation Code: &nbsp </label>
                 <div class="col-sm-4">

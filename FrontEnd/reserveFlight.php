@@ -6,10 +6,11 @@
         <link rel="stylesheet" href="../lib/css/reserve.css">
         <link rel="stylesheet" href="../lib/css/default2.css">
         <script src="../lib/js/clockDisplay.js"></script>
+        <script src="../lib/js/reserve.js"></script>
     </head>
     <body>
         <div id="container">
-        <div id="header"><a href="../index.php"><h3>Airline Reservation System</h3><img id="home-icon" src="../lib/image/home-icon.png" alt="Home"></a></div>
+        <div id="header"><a href="../index.php"><h3>Airline Reservation System<img id="home-icon" src="../lib/image/home-icon.png" alt="Home"></h3></a></div>
         <div id="body">
         <div id="clockbox"></div>
         <h2>Reserve Flight</h2>
@@ -90,7 +91,7 @@
         
         <div id="form-wrapper">
             <h3>Please enter your personal data</h3>
-        <form class ="form-horizontal" role="form" action='reserveToDB.php' method='post'>
+        <form class ="form-horizontal" role="form" name="myForm" action='reserveToDB.php' onsubmit="javascript:return validate();" method='post'>
             <div class ="form-group">
                 <label class="col-sm-2 control-label">Full Name:</label>
                 <div class="col-sm-5">
@@ -147,7 +148,7 @@
                         </select>
                     </div>
             </div>    
-                <input class="btn btn-default" type='submit' value='Reserve'>
+                <input class="btn btn-primary" type='submit' value='Reserve'>
                 <input type ='hidden' name='flightCode' value='<?= $flightCode ?>'>    
         </form>
         </div>
