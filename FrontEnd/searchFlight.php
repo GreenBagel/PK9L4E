@@ -76,34 +76,36 @@
                         <input type="submit" class="btn btn-primary" value="submit"> 
                     </form>
                 </div>
-                <div id="table-wrapper">
-                    <table class="table table-bordered" border="1">
-                        <tr>
-                            <th>Flight code</th>
-                            <th>Origin</th>
-                            <th>Destination</th>
-                            <th>Departure Date & Time</th>
-                            <th>Arrival Date & Time</th>
-                            <th>Seats Number</th>
-                            <th>Price</th>
-                            <th>Book Now!</th>
-                        </tr>
-                        <?php
-                        $date = (isset($_POST['deptDate']) ? $_POST['deptDate'] : null);
-                        $originCity = (isset($_POST['originCity']) ? $_POST['originCity'] : null);
-                        $destCity = (isset($_POST['destCity']) ? $_POST['destCity'] : null);
-                        if (strpos($originCity, 'Select') !== false || strpos($destCity, 'Select') !== false) {
-                            $originCity = null;
-                            $destCity = null;
-                        }
 
-                        if ($date == null or $originCity == null or $destCity == null) {
-                            ?>
-                            <tr> 
-                                <td  colspan ="7">Click submit to begin searching using all the criteria</td>
+                <?php
+                $date = (isset($_POST['deptDate']) ? $_POST['deptDate'] : null);
+                $originCity = (isset($_POST['originCity']) ? $_POST['originCity'] : null);
+                $destCity = (isset($_POST['destCity']) ? $_POST['destCity'] : null);
+                if (strpos($originCity, 'Select') !== false || strpos($destCity, 'Select') !== false) {
+                    $originCity = null;
+                    $destCity = null;
+                }
+
+                if ($date == null and $originCity == null and $destCity == null) {
+                    ?>
+                    <?php
+                } else if ($date == null or $originCity == null or $destCity == null) {
+                    echo 'Please try again with all the criteria inputted';
+                } else{
+                    ?>
+                    <div id="table-wrapper">
+                        <table class="table table-bordered" border="1">
+                            <tr>
+                                <th>Flight code</th>
+                                <th>Origin</th>
+                                <th>Destination</th>
+                                <th>Departure Date & Time</th>
+                                <th>Arrival Date & Time</th>
+                                <th>Seats Number</th>
+                                <th>Price</th>
+                                <th>Book Now!</th>
                             </tr>
                             <?php
-                        } else {
                             try {
                                 $flightResult = $flights->GetFlightWithFieldsFilter(null, $originCity, $date, $destCity, null, null, null, Database::DATE_TIME_FORMAT_TO_DATE_ONLY, null);
 
@@ -127,7 +129,7 @@
                                                 <td><input type="submit" class="btn btn-default" value="Book"</td>
                                             <input type="hidden" name="flightCode" value="<?= $result[0] ?>">
                                             <?php
-                                        }else{
+                                        } else {
                                             echo ('<td>Full</td>');
                                         }
                                         ?>
