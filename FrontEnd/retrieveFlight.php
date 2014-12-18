@@ -113,7 +113,7 @@
                             }
                         } catch (Exception $e) { ?>
                         <div style="width:100%; float:left; margin-top:30px;">
-                            <p style="text-align:center;">Invalid Reservation Code</p>
+                            <p style="text-align:center;">Invalid code provided. Please reconfirm you have entered your code correctly</p>
                         </div>
                         <?php
                         }

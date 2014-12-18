@@ -31,7 +31,9 @@
         $paymentDetail = $_POST['paymentDetail'];
         $customers->ConfirmPayment($resCode, $paymentMethod, $paymentDetail);
         ?>
-        <p style="text-align:center;"><a href="../index.php">Go back</a></p>
+        <p style="text-align:center;">
+            Your payment has been registered.
+            <a href="../index.php">Return to main page</a></p>
         </div>
         </div>
     </body>
