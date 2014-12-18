@@ -1,31 +1,31 @@
-#content-wrapper table
-{
-	width: 75%;
-}
-
 
 #form-wrapper
 {	
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
+	width: 100%;
+	float: left;
 	margin-top: 30px;
 }
 
-#content-wrapper
+#form-wrapper form
 {
-	width: 100%;
+	width:60%;
+	margin-left:25%;
 }
+
 #flight-details
 {
 	width: 50%;
-	margin-left: 30%;
+	margin-left: auto;
+	margin-right: auto;
+	float: left;
 }
 
 #personal-details
 {	
 	width: 50%;
-	margin-left: 30%;
+	margin-left: auto;
+	margin-right: auto;
+	float: right;
 }
 
 #payment-details
@@ -48,5 +48,5 @@ margin-left: 35%;
 
 .information-wrapper-2 .btn
 {
-margin-left: 25%;
+margin-left: 20%;
 }

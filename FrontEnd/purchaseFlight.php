@@ -30,12 +30,12 @@
                 <div id="form-wrapper">
                     <form class="horizontal-form" name="myForm" action="purchaseFlight.php" onsubmit="javascript:return validateReserveCode();" method="post">
                         <div class="form-group">
-                        <label class="col-sm-6 control-label">Please input your reservation code to make payment:</label>
+                        <label class="col-sm-5 control-label">Please input your reservation code to make payment:</label>
                         <div class="col-sm-3"> 
                         <input class="form-control" type="text" name="resCode">
                         </div>
                         </div>
-                        <input class="btn btn-primary" type="submit" value="submit">
+                        <input class="btn btn-primary" type="submit" value="Get details">
                     </form>
                 </div>
                 <?php
@@ -52,7 +52,7 @@
                         if (!$hasPaid) {
                             $flightData = $flights->GetFlightWithFieldsFilter($flightNumber, null, null, null, null, null, null);
                             ?>
-                            <div id="content-wrapper">
+                            
                             <div id="flight-details">
                             <div class="information-wrapper">
                             <h3>Flight Details</h3><br>
@@ -128,7 +128,7 @@
                             </table>
                             </div>
                             </div>
-                            </div>
+                            
                             <div id="payment-details">
                             <div class="information-wrapper-2">
                             <h3>Please provide your payment details</h3>
@@ -151,7 +151,7 @@
                                         </div>
                                     </div>
         
-                                    <input class="btn btn-primary" type="submit" value="submit">
+                                    <input class="btn btn-warning" type="submit" value="Purchase">
                                     <input type="hidden" name="resCode" value="<?= $value[0] ?>">
                                     
                                 
@@ -159,12 +159,20 @@
                             </div>
                             </div>
                             <?php
-                        } else {
-                            echo 'Your flight has been paid<br>';
-                            echo '<a href="../index.php">Go back</a>';
+                        } else {?>
+                        <div style="width:100%; float:left; margin-top:30px;">
+                            <p style="text-align:center;">
+                                This flight has already been paid.<br>
+                                <a href="../index.php">Go back</a>
+                            </p>
+                        </div>
+                    <?php
                         }
-                    } catch (Exception $e) {
-                        echo 'Invalid code provided. Please reconfirm you have entered your code correctly';
+                    } catch (Exception $e) {?>
+                        <div style="width:100%; float:left; margin-top:30px;">
+                            <p style="text-align:center;">Invalid code provided. Please reconfirm you have entered your code correctly</p>
+                        </div>
+                    <?php
                     }
                 }
                 ?>

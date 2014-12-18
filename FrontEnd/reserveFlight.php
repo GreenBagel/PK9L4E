@@ -31,7 +31,7 @@
         
         <div id="table-wrapper">
         <div class="information-wrapper">
-            <h3>This is the detail of the flight you've choosen</h3>
+            <h3>Flight Details</h3>
         <table class="table table-bordered" border="1">
             <!-- <tr>
                 <th>Flight code</th>

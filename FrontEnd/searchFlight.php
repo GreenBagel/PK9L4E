@@ -30,7 +30,7 @@
                         <div class="form-group">
                             <div class ="input-group">
                                 <label class="col-sm-2 control-label">Date:</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-9">
                                     <input id="date" type="date" class="form-control" name="deptDate">
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                         <div class="form-group">
                             <div class ="input-group">
                                 <label class="col-sm-2 control-label">Origin:</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-9">
                                     <select id="originCity" name ="originCity" class="form-control">
                                         <?php
                                         $location_array = $locations->GetLocationWithFieldsFilter(NULL);?>
@@ -56,8 +56,8 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <label class="col-sm-3 control-label">Destination:</label>
-                                <div class="col-sm-9">
+                                <label class="col-sm-4 control-label">Destination:</label>
+                                <div class="col-sm-8">
                                     <select id="destCity" name ="destCity" class="form-control">
                                         <?php
                                         $location_array = $locations->GetLocationWithFieldsFilter(NULL);?>
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary" value="submit"> 
+                        <input type="submit" class="btn btn-primary" value="Search" style="margin-left:30px;"> 
                     </form>
                 </div>
 
