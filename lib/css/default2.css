@@ -29,6 +29,11 @@ color: #FFF;
 text-decoration: none;
 }
 
+#header a:hover
+{
+color: #000;
+}
+
 #header h3
 {
 padding: 10px 0px 10px;
@@ -53,7 +58,6 @@ bottom: 0;
 width: 100%;
 height: 60px;
 text-align: center;
-font-weight: bold;
 }
 
 #clockbox

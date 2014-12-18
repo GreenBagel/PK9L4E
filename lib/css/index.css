@@ -6,7 +6,7 @@ margin-left: 25px;
 margin-right: 25px;
 height:150px;
 width:150px;
-background-color: #5bc0de;
+background-color: #005480; /*5bc0de;*/
 border-color: #46b8da;
 }
 
@@ -15,12 +15,17 @@ a.link
 display: block;
 width: 100%;
 height: 100%;
-font-weight: bold;
+/*font-weight: bold;*/
 font-size: 28px;
 text-align: center;
 text-decoration: none;
 color: #FFF;
 margin-top: 15px;
+}
+
+a:hover.link
+{
+color: #000;
 }
 
 #menu
