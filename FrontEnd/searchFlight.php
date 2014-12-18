@@ -126,7 +126,7 @@
                                             <?php
                                             if (!$full) {
                                                 ?>
-                                                <td><input type="submit" class="btn btn-default" value="Book"</td>
+                                                <td><input type="submit" class="btn btn-warning" value="Book"</td>
                                             <input type="hidden" name="flightCode" value="<?= $result[0] ?>">
                                             <?php
                                         } else {

@@ -4,7 +4,7 @@
         <title>Purchase flight</title>
         <link rel="stylesheet" href="../lib/bootstrap.min.css">
         <link rel="stylesheet" href="../lib/css/default2.css">
-        <link rel="stylesheet" href="../lib/css/purchase.css">
+        <link rel="stylesheet" href="../lib/css/purchase.css">  
         <script src="../lib/js/clockDisplay.js"></script>
         <script src="../lib/js/purchase.js"></script>
     </head>
@@ -52,8 +52,10 @@
                         if (!$hasPaid) {
                             $flightData = $flights->GetFlightWithFieldsFilter($flightNumber, null, null, null, null, null, null);
                             ?>
+                            <div id="content-wrapper">
                             <div id="flight-details">
-                            <h3>Here is your Flight Details</h3><br>
+                            <div class="information-wrapper">
+                            <h3>Flight Details</h3><br>
                             <table class="table table-bordered" border="1">
         
                                 <?php
@@ -92,8 +94,10 @@
                                 ?>
                             </table>
                             </div>
+                            </div>
                             <div id="personal-details">
-                            <h3>Here is your personal Detail</h3><br>
+                            <div class="information-wrapper">
+                            <h3>Personal Details</h3><br>
                             <table class="table table-bordered" border ="1">
                                 
                                 <?php
@@ -123,10 +127,12 @@
                                 ?>
                             </table>
                             </div>
-
+                            </div>
+                            </div>
                             <div id="payment-details">
-                            <h3>Please Input your payment details</h3>
-                            <form class ="form-horizontal" role="form" name="myForm2" action="paymentToDB.php" onsubmit="javascript:return validatePayment();" method="post">
+                            <div class="information-wrapper-2">
+                            <h3>Please provide your payment details</h3>
+                            <form class ="form-horizontal" role="form" style="margin-top:30px;" name="myForm2" action="paymentToDB.php" onsubmit="javascript:return validatePayment();" method="post">
                                 
                                     <div class = "form-group">
                                         <label class ="col-sm-2 control-label">Payment Method:</label>
@@ -140,7 +146,7 @@
                                     
                                     <div class = "form-group">
                                         <label class="col-sm-2 control-label">Payment Details:</label>
-                                        <div class = "col-sm-2">
+                                        <div class = "col-sm-3">
                                         <input class="form-control" type="text" name="paymentDetail">
                                         </div>
                                     </div>
@@ -150,6 +156,7 @@
                                     
                                 
                             </form>
+                            </div>
                             </div>
                             <?php
                         } else {

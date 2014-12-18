@@ -31,7 +31,7 @@
         $paymentDetail = $_POST['paymentDetail'];
         $customers->ConfirmPayment($resCode, $paymentMethod, $paymentDetail);
         ?>
-        <a href="../index.php">Go back</a>
+        <p style="text-align:center;"><a href="../index.php">Go back</a></p>
         </div>
         </div>
     </body>

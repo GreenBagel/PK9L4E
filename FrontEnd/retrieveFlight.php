@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Retrieve Flight</title>
+        <title>Retrieve Flight</title> 
         <link rel="stylesheet" href="../lib/bootstrap.min.css">
         <link rel="stylesheet" href="../lib/css/default2.css">
         <link rel="stylesheet" href="../lib/css/retrieve.css">
@@ -14,7 +14,7 @@
             <div id="header"><a href="../index.php"><h3>Airline Reservation System<img id="home-icon" src="../lib/image/home-icon.png" alt="Home"></h3></a></div>
             <div id="body">
                 <div id="clockbox"></div>
-                <h2>Retrieve flight</h2>
+                <h2>Retrieve Flight Details</h2>
 
                 <!-- PHP -->
                 <?php
@@ -35,8 +35,8 @@
                 <div id="form-wrapper">
                     <form class="horizontal-form" role="form" name="myForm" action="retrieveFlight.php" onsubmit="javascript:return validate();" method="post">
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">Reservation Code: &nbsp </label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-4 control-label">Enter Reservation Code: &nbsp </label>
+                            <div class="col-sm-5">
                                 <input class="form-control" type="text" name="code"> &nbsp
                             </div> 
                         </div>
@@ -44,31 +44,16 @@
                     </form>
                 </div>
 
-
+                <div id="table-wrapper">
 
                 <?php
                 $reservation_code = (isset($_POST['code']) ? $_POST['code'] : null);
                 if ($reservation_code == null) {
                     ?> 
-                    <tr> 
-                        <td  colspan ="8" align="center">Flight information will be diplayed here.</td>
-                    </tr>             
+                                 
                     <?php } else {
                     ?>
-                    <table border="1" class="table table-bordered">
 
-                        <!-- Flight Code -->
-                        <tr>
-                            <th align="center">Flight code</th>
-                            <th align="center">Origin</th>
-                            <th align="center">Departure Date & Time</th>
-                            <th align="center">Seat Number </th>
-                            <th align="center">Name</th>
-                            <th align="center">NRIC</th>
-                            <th align="center">Contact Number</th>
-                            <th align="center">Email Address</th>
-
-                        </tr>
                         <?php
                         try {
                             $resInfo = $res->GetReservationWithFieldsFilter($reservation_code, null, null, null, null, null, null, null, null, null);
@@ -80,16 +65,40 @@
                                 if ($hasPaid) {
                                     foreach ($resInfo2 as $result2) {
                                         ?>
+                                        <table border="1" class="table table-bordered">
                                         <tr>
+                                            <th align="center">Flight code</th>
                                             <td align="center"> <?= $result[1] ?> </td> <!-- Flight Code -->
+                                        </tr>
+                                        <tr>
+                                            <th align="center">Origin</th>
                                             <td align="center"> <?= $result2[1] ?> </td> <!-- Origin -->
+                                        </tr>
+                                        <tr>    
+                                            <th align="center">Departure Date & Time</th>
                                             <td align="center"> <?= $result2[2] ?> </td>	<!-- Departure Date & Time -->
+                                        </tr>
+                                        <tr>    
+                                            <th align="center">Seat Number </th>
                                             <td align="center"> <?= $result[7] ?> </td> <!-- Seat Number -->
+                                        </tr>
+                                        <tr>    
+                                            <th align="center">Name</th>
                                             <td align="center"> <?= $result[3] ?> </td> <!-- Name -->
+                                        </tr>
+                                        <tr>
+                                            <th align="center">NRIC</th>
                                             <td align="center"> <?= $result[4] ?> </td> <!-- NRIC -->
+                                        </tr>
+                                        <tr>
+                                            <th align="center">Contact Number</th>
                                             <td align="center"> <?= $result[6] ?> </td> <!-- Contact Number -->
+                                        </tr>
+                                        <tr>
+                                            <th align="center">Email Address</th>
                                             <td align="center"> <?= $result[5] ?> </td> <!-- Email Address -->
                                         </tr>
+                                        </table>
                                         <?php
                                     }
                                 } else {
@@ -102,8 +111,8 @@
                         }
                     }
                     ?>
-
-                </table>
+                </div>
+                <!-- </table> -->
             </div>
         </div>
 

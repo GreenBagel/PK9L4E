@@ -3,8 +3,8 @@
     <head>
         <title>Reserve flight</title>
         <link rel="stylesheet" href="../lib/bootstrap.min.css">
-        <link rel="stylesheet" href="../lib/css/reserve.css">
         <link rel="stylesheet" href="../lib/css/default2.css">
+        <link rel="stylesheet" href="../lib/css/reserve.css">
         <script src="../lib/js/clockDisplay.js"></script>
         <script src="../lib/js/reserve.js"></script>
     </head>
@@ -30,6 +30,7 @@
         ?>
         
         <div id="table-wrapper">
+        <div class="information-wrapper">
             <h3>This is the detail of the flight you've choosen</h3>
         <table class="table table-bordered" border="1">
             <!-- <tr>
@@ -88,39 +89,41 @@
             ?>
         </table>
         </div>
+        </div>
         
         <div id="form-wrapper">
-            <h3>Please enter your personal data</h3>
+            <div class="information-wrapper">
+            <h3>Please enter your personal details</h3>
         <form class ="form-horizontal" role="form" name="myForm" action='reserveToDB.php' onsubmit="javascript:return validate();" method='post'>
             <div class ="form-group">
-                <label class="col-sm-2 control-label">Full Name:</label>
+                <label class="col-sm-3 control-label">Full Name:</label>
                 <div class="col-sm-5">
                 <input class="form-control" type='text' name='name'>
                 </div>
             </div>
 
             <div class = "form-group">    
-                    <label class="col-sm-2 control-label">IC number:</label>
+                    <label class="col-sm-3 control-label">IC number:</label>
                 <div class="col-sm-5">
                     <input class="form-control" type='text' name ='ICNumber'>
                 </div>
             </div>
 
             <div class = "form-group">
-                    <label class="col-sm-2 control-label">Email address:</label>
+                    <label class="col-sm-3 control-label">Email address:</label>
                     <div class="col-sm-5">
                     <input class="form-control" type='email' name='email'>
                     </div>
             </div>
 
             <div class = "form-group">    
-                    <label class="col-sm-2 control-label">Phone number:</label>
+                    <label class="col-sm-3 control-label">Phone number:</label>
                     <div class="col-sm-5">
                     <input class="form-control" type='number' name='phoneNum'>
                     </div>
             </div>
             <div class = "form-group">
-                    <label class="col-sm-2 control-label">Seat number:</label>
+                    <label class="col-sm-3 control-label">Seat number:</label>
                     <div class="col-sm-5">
                         <select name ="seatNo">
                         <?php
@@ -148,9 +151,10 @@
                         </select>
                     </div>
             </div>    
-                <input class="btn btn-primary" type='submit' value='Reserve'>
+                <input class="btn btn-primary" type='submit' style="margin-left:45%;" value='Reserve'>
                 <input type ='hidden' name='flightCode' value='<?= $flightCode ?>'>    
         </form>
+        </div>
         </div>
         </div>
         </div>

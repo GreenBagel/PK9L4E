@@ -39,10 +39,11 @@
         if ($reservationCode != null){
             //$reservations->UpdateDetails($reservationCode, $name, $ICNumber, $email, $phoneNum);
             ?>
-        Your booking is successful. Here is your booking code: <?= $reservationCode?>
-        <br> Please write this down because you need this code to make payment.<br>
-        Go to <a href="../index.php">Home Page</a> to make payment.
-                
+        <div class="information-wrapper" style="text-align:center;margin-top:50px;">
+            <h4>Your booking is successful. Here is your booking code: <?= $reservationCode?></h4>
+            <br> Please write this down because you need this code to make payment.<br>
+            Go to <a href="../index.php">Home Page</a> to make payment.
+        </div>
                 <?php
         }else{
             echo 'Something went wrong please try again';
